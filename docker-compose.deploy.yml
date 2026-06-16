@@ -1,0 +1,81 @@
+name: my-journal
+
+# Pull-and-run stack for a low-RAM VPS ($4/mo class). The app image is built and
+# pushed from your laptop (or CI), so the server never compiles anything — it only
+# pulls ${IMAGE} and runs it. Copy just this file + Caddyfile + .env to the server:
+#   docker compose -f docker-compose.deploy.yml pull
+#   docker compose -f docker-compose.deploy.yml up -d
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: journal
+      POSTGRES_PASSWORD: journal
+      POSTGRES_DB: journal
+    volumes:
+      - journal_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U journal -d journal"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Applies pending migrations once, then exits. web/worker wait for it to finish.
+  migrate:
+    image: ${IMAGE:?Set IMAGE in .env to your pushed image, e.g. ghcr.io/you/my-journal:latest}
+    command: npm run db:migrate
+    restart: "no"
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://journal:journal@db:5432/journal
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: ${IMAGE:?Set IMAGE in .env to your pushed image}
+    command: npm run start
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://journal:journal@db:5432/journal
+    expose:
+      - "3000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  worker:
+    image: ${IMAGE:?Set IMAGE in .env to your pushed image}
+    command: npm run worker:start
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://journal:journal@db:5432/journal
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  # Terminates HTTPS and proxies to the dashboard. With DOMAIN set to a hostname
+  # whose DNS points here, Caddy fetches a Let's Encrypt cert automatically.
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:?Set DOMAIN in .env to your dashboard hostname (or :80 for HTTP-only)}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  journal_pgdata:
+  caddy_data:
+  caddy_config:

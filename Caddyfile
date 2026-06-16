@@ -1,0 +1,7 @@
+# DOMAIN comes from the environment (set it in .env).
+#   - a hostname, e.g. journal.example.com  -> automatic HTTPS via Let's Encrypt
+#   - :80                                    -> plain HTTP only (no TLS; not recommended)
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy web:3000
+}
