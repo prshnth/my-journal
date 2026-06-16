@@ -6,12 +6,17 @@ import type { ExtractedSignals, ResponseProcessor } from "../signals/types";
 import {
   getUserByChatId,
   latestRecentCheckIn,
+  recordCheckIn,
   recordEntry,
   saveSignals,
   upsertUser,
 } from "../repo";
+import { RotatingPromptProvider } from "../prompts/rotating";
+import { SLOTS, type Slot } from "../prompts/types";
+import { currentSlot, localDateFor } from "../scheduler/slots";
 
 const processor: ResponseProcessor = new RuleBasedProcessor();
+const promptProvider = new RotatingPromptProvider();
 
 export function createBot(): Bot {
   const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
@@ -29,8 +34,41 @@ export function createBot(): Bot {
 
   bot.command("help", async (ctx) => {
     await ctx.reply(
-      "i nudge you morning, midday, and evening. just reply to log how you're doing — that's the whole thing.",
+      "i nudge you morning, midday, and evening. just reply to log how you're doing.\n\n" +
+        "want a nudge now? send /checkin (or /checkin morning | midday | evening).",
     );
+  });
+
+  // Manual, off-schedule nudge: pick a prompt and send it right now.
+  bot.command("checkin", async (ctx) => {
+    const chatId = String(ctx.chat.id);
+    const user =
+      (await getUserByChatId(chatId)) ??
+      (await upsertUser({
+        telegramChatId: chatId,
+        name: ctx.from?.first_name ?? null,
+        timezone: env.USER_TIMEZONE,
+      }));
+
+    // Optional slot argument ("/checkin evening"); otherwise the slot for the current time.
+    const arg = ctx.match.trim().toLowerCase();
+    const slot: Slot = (SLOTS as readonly string[]).includes(arg)
+      ? (arg as Slot)
+      : currentSlot(user.timezone);
+
+    const localDate = localDateFor(user.timezone);
+    const prompt = await promptProvider.getNextCheckIn({ userId: user.id, slot, localDate });
+
+    const sent = await ctx.reply(prompt.text);
+    // Record it so your reply attributes to this prompt. If this slot already fired today it
+    // returns null — the nudge still goes out and the reply maps to that slot's check-in.
+    await recordCheckIn({
+      userId: user.id,
+      slot,
+      prompt,
+      localDate,
+      telegramMessageId: String(sent.message_id),
+    });
   });
 
   bot.on("message:text", async (ctx) => {

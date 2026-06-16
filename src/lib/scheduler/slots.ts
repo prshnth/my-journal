@@ -41,3 +41,17 @@ export function dueSlots(timezone: string, now: DateTime = DateTime.now()): DueS
   }
   return due;
 }
+
+/**
+ * The slot whose scheduled time most recently passed (defaults to the earliest slot when
+ * it's before the first one). Used by the manual /checkin command to pick a fitting prompt.
+ */
+export function currentSlot(timezone: string, now: DateTime = DateTime.now()): Slot {
+  const local = now.setZone(timezone);
+  const minutesNow = local.hour * 60 + local.minute;
+  let chosen: Slot = SLOT_SCHEDULE[0].slot;
+  for (const def of SLOT_SCHEDULE) {
+    if (minutesNow >= def.hour * 60 + def.minute) chosen = def.slot;
+  }
+  return chosen;
+}
