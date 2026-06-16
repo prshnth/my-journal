@@ -38,7 +38,7 @@ laptop ──git push──▶ GitHub Actions ──build amd64 + push──▶ 
 ```bash
 git add -A
 git commit -m "Deploy stack + CI image build"
-git remote add origin https://github.com/YOUR_USERNAME/my-journal.git   # if not already set
+git remote add origin https://github.com/prshnth/my-journal.git   # if not already set
 git push -u origin main
 ```
 
@@ -46,7 +46,7 @@ git push -u origin main
 > rename it or edit `branches:` in the workflow.
 
 **2. Watch it build.** Repo → **Actions** tab → "Publish image". First run takes ~2–4 min. It
-produces `ghcr.io/<your-username>/my-journal` tagged `latest` and the commit SHA.
+produces `ghcr.io/prshnth/my-journal` tagged `latest` and the commit SHA.
 
 **3. Make the image pullable.** Repo → **Packages** → open `my-journal`:
 
@@ -57,8 +57,8 @@ produces `ghcr.io/<your-username>/my-journal` tagged `latest` and the commit SHA
 > **Prefer not to use CI?** Build on your laptop instead (Docker Desktop required):
 >
 > ```bash
-> echo "$GH_TOKEN" | docker login ghcr.io -u YOUR_USERNAME --password-stdin
-> docker buildx build --platform linux/amd64 -t ghcr.io/YOUR_USERNAME/my-journal:latest --push .
+> echo "$GH_TOKEN" | docker login ghcr.io -u prshnth --password-stdin
+> docker buildx build --platform linux/amd64 -t ghcr.io/prshnth/my-journal:latest --push .
 > ```
 
 ---
@@ -118,7 +118,7 @@ OWNER_TELEGRAM_CHAT_ID=
 DASHBOARD_USER=journal
 DASHBOARD_PASSWORD=choose-a-strong-password
 DOMAIN=journal.yourdomain.com
-IMAGE=ghcr.io/your-username/my-journal:latest
+IMAGE=ghcr.io/prshnth/my-journal:latest
 ```
 
 Save: `Ctrl+O`, `Enter`, `Ctrl+X`. *(All-lowercase `IMAGE`. Leave `OWNER_TELEGRAM_CHAT_ID`
@@ -127,7 +127,7 @@ blank — captured on `/start`.)*
 **10. Pull and start.**
 
 ```bash
-docker login ghcr.io -u YOUR_USERNAME      # skip if you made the package public
+docker login ghcr.io -u prshnth      # skip if you made the package public
 docker compose -f docker-compose.deploy.yml pull
 docker compose -f docker-compose.deploy.yml up -d
 docker compose -f docker-compose.deploy.yml logs -f

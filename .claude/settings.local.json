@@ -10,7 +10,18 @@
       "Bash(docker info *)",
       "Bash(node -e \"console.log\\('next', require\\('next/package.json'\\).version\\)\")",
       "Bash(node -e \"const s=require\\('fs'\\).readFileSync\\('node_modules/next/dist/server/config-schema.js','utf8'\\); const m=s.match\\(/nodeMiddleware/g\\); console.log\\('nodeMiddleware occurrences in config-schema:', m?m.length:0\\)\")",
-      "Bash(python3 -c \"import yaml,sys; d=yaml.safe_load\\(open\\('.github/workflows/publish-image.yml'\\)\\); print\\('YAML OK — jobs:', list\\(d['jobs'].keys\\(\\)\\), '| steps:', len\\(d['jobs']['build-and-push']['steps']\\)\\)\")"
+      "Bash(python3 -c \"import yaml,sys; d=yaml.safe_load\\(open\\('.github/workflows/publish-image.yml'\\)\\); print\\('YAML OK — jobs:', list\\(d['jobs'].keys\\(\\)\\), '| steps:', len\\(d['jobs']['build-and-push']['steps']\\)\\)\")",
+      "Read(//Users/nakshatra/.ssh/**)",
+      "Bash(ssh-keygen -t ed25519 -C \"nikkidave.9@gmail.com\" -f ~/.ssh/id_ed25519 -N \"\")",
+      "Bash(pbcopy)",
+      "Bash(git config *)",
+      "Bash(echo \"name : $\\(git config --local user.name\\)\")",
+      "Bash(echo \"email: $\\(git config --local user.email\\)\")",
+      "Bash(echo \"name : $\\(git config --global user.name\\)\")",
+      "Bash(echo \"email: $\\(git config --global user.email\\)\")",
+      "Bash(security find-internet-password *)",
+      "Bash(rm -f ~/.ssh/id_ed25519 ~/.ssh/id_ed25519.pub)",
+      "Bash(ssh-keygen -t ed25519 -C \"pjreddy.k@gmail.com\" -f ~/.ssh/id_ed25519 -N \"\")"
     ]
   }
 }
