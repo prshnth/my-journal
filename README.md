@@ -27,6 +27,15 @@ with no rewrite:
 Raw replies (`entries`) are stored separately from derived metrics (`signals`). Upgrading the
 extractor just writes new `signals` rows over your existing history — no migration, no data loss.
 
+## Bot commands
+
+- **`/start`** — registers you and captures your chat id.
+- **`/checkin`** — an on-demand nudge, off-schedule, with a prompt that fits the time of day.
+  Force a specific theme with `/checkin morning`, `/checkin midday`, or `/checkin evening`.
+- **`/help`** — a quick reminder of what the bot does.
+
+Replying to any nudge — scheduled or `/checkin` — logs an entry.
+
 ## Setup
 
 **Prerequisites:** Node 20+, and Postgres (the included `docker-compose.yml`, or any Postgres).
@@ -111,7 +120,7 @@ certificate for your domain automatically.
 4. **Say hi to your bot.** Open it in Telegram and send `/start` to register.
 
 5. **Open the dashboard** at `https://journal.example.com` and sign in with your
-   `DASHBOARD_USER` / `DASHBOARD_PASSWORD`.
+   `DASHBOARD_USER` (default `journal`) / `DASHBOARD_PASSWORD`.
 
 **Day-to-day:**
 
