@@ -120,7 +120,7 @@ certificate for your domain automatically.
 4. **Say hi to your bot.** Open it in Telegram and send `/start` to register.
 
 5. **Open the dashboard** at `https://journal.example.com` and sign in with your
-   `DASHBOARD_USER` (default `journal`) / `DASHBOARD_PASSWORD`.
+   `DASHBOARD_PASSWORD` on the login screen.
 
 **Day-to-day:**
 

@@ -144,9 +144,8 @@ Healthy startup looks like: `migrate` runs and exits 0 → `worker` prints
 
 **11.** Open your bot in Telegram, send **`/start`** (registers you + stores your chat id).
 
-**12.** Visit **`https://journal.yourdomain.com`** → the browser prompts for credentials →
-enter `DASHBOARD_USER` (default `journal`) / `DASHBOARD_PASSWORD`. Reply to a check-in and
-watch it land on the dashboard.
+**12.** Visit **`https://journal.yourdomain.com`** → the login screen asks for your
+`DASHBOARD_PASSWORD`. Sign in, then reply to a check-in and watch it land on the dashboard.
 
 **13.** Want a nudge off-schedule? Send **`/checkin`** anytime (or `/checkin morning | midday
 | evening` to pick the theme). Replying logs an entry just like a scheduled nudge.
