@@ -1,9 +1,15 @@
 import { DateTime } from "luxon";
 import { RotatingPromptProvider } from "../prompts/rotating";
 import type { PromptProvider } from "../prompts/types";
-import { checkInExists, listUsers, recordCheckIn, setCheckInMessageId } from "../repo";
+import {
+  checkInExists,
+  listUsers,
+  recordBraindumpCheckIn,
+  recordCheckIn,
+  setCheckInMessageId,
+} from "../repo";
 import { sendMessage } from "../telegram/send";
-import { dueSlots } from "./slots";
+import { braindumpDue, BRAINDUMP_PROMPT, dueSlots } from "./slots";
 
 // Swap this single line for an AI provider later — nothing else in the loop changes.
 const provider: PromptProvider = new RotatingPromptProvider();
@@ -36,6 +42,26 @@ export async function runTick(now: DateTime = DateTime.now()): Promise<void> {
         }
       } catch (err) {
         console.error(`[scheduler] failed to send ${due.slot} to ${user.telegramChatId}:`, err);
+      }
+    }
+
+    // Once-a-day braindump nudge — its replies are turned into todos by the bot.
+    const bdDate = braindumpDue(user.timezone, now);
+    if (bdDate && !(await checkInExists(user.id, "braindump", bdDate))) {
+      const checkIn = await recordBraindumpCheckIn({
+        userId: user.id,
+        localDate: bdDate,
+        text: BRAINDUMP_PROMPT,
+      });
+      if (checkIn) {
+        try {
+          const messageId = await sendMessage(user.telegramChatId, BRAINDUMP_PROMPT);
+          if (messageId !== undefined) {
+            await setCheckInMessageId(checkIn.id, String(messageId));
+          }
+        } catch (err) {
+          console.error(`[scheduler] failed to send braindump to ${user.telegramChatId}:`, err);
+        }
       }
     }
   }

@@ -4,19 +4,30 @@ import { env } from "../env";
 import { RuleBasedProcessor } from "../signals/rules";
 import type { ExtractedSignals, ResponseProcessor } from "../signals/types";
 import {
+  addTodo,
   getUserByChatId,
   latestRecentCheckIn,
+  listOpenTodos,
   recordCheckIn,
   recordEntry,
   saveSignals,
+  setTodoDone,
   upsertUser,
 } from "../repo";
 import { RotatingPromptProvider } from "../prompts/rotating";
 import { SLOTS, type Slot } from "../prompts/types";
 import { currentSlot, localDateFor } from "../scheduler/slots";
+import type { User } from "../db/schema";
 
 const processor: ResponseProcessor = new RuleBasedProcessor();
 const promptProvider = new RotatingPromptProvider();
+
+async function ensureUser(chatId: string, firstName: string | null): Promise<User> {
+  return (
+    (await getUserByChatId(chatId)) ??
+    (await upsertUser({ telegramChatId: chatId, name: firstName, timezone: env.USER_TIMEZONE }))
+  );
+}
 
 export function createBot(): Bot {
   const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
@@ -34,8 +45,11 @@ export function createBot(): Bot {
 
   bot.command("help", async (ctx) => {
     await ctx.reply(
-      "i nudge you morning, midday, and evening. just reply to log how you're doing.\n\n" +
-        "want a nudge now? send /checkin (or /checkin morning | midday | evening).",
+      "i nudge you morning, midday, and evening — just reply to log how you're doing.\n\n" +
+        "/checkin — a nudge now (or /checkin morning | midday | evening)\n" +
+        "/todos — list your todos, or /todos <thing> to add one\n" +
+        "/done <number> — check a todo off\n\n" +
+        "once a day i'll ask what's on your mind — reply one item per line and i'll save them as todos.",
     );
   });
 
@@ -71,22 +85,64 @@ export function createBot(): Bot {
     });
   });
 
+  // Todos: list them, or add one when text follows the command.
+  bot.command("todos", async (ctx) => {
+    const user = await ensureUser(String(ctx.chat.id), ctx.from?.first_name ?? null);
+    const arg = ctx.match.trim();
+    if (arg) {
+      await addTodo({ userId: user.id, text: arg, source: "command" });
+      const open = await listOpenTodos(user.id);
+      await ctx.reply(`added. ${open.length} open ${open.length === 1 ? "todo" : "todos"} now.`);
+      return;
+    }
+    const open = await listOpenTodos(user.id);
+    if (!open.length) {
+      await ctx.reply("no open todos. add one with /todos <thing>, or reply to the daily braindump.");
+      return;
+    }
+    const list = open.map((t, i) => `${i + 1}. ${t.text}`).join("\n");
+    await ctx.reply(`your todos:\n${list}\n\nmark one done with /done <number>.`);
+  });
+
+  // Complete the Nth open todo (numbering matches /todos).
+  bot.command("done", async (ctx) => {
+    const user = await ensureUser(String(ctx.chat.id), ctx.from?.first_name ?? null);
+    const open = await listOpenTodos(user.id);
+    const n = parseInt(ctx.match.trim(), 10);
+    if (!Number.isInteger(n) || n < 1 || n > open.length) {
+      await ctx.reply(
+        open.length ? `which one? send /done <1-${open.length}> — see /todos.` : "no open todos to finish.",
+      );
+      return;
+    }
+    const todo = open[n - 1];
+    await setTodoDone(todo.id, true);
+    await ctx.reply(`done: ${todo.text}`);
+  });
+
   bot.on("message:text", async (ctx) => {
     const text = ctx.message.text;
     if (text.startsWith("/")) return; // ignore stray slash commands
 
-    const chatId = String(ctx.chat.id);
-    const user =
-      (await getUserByChatId(chatId)) ??
-      (await upsertUser({
-        telegramChatId: chatId,
-        name: ctx.from?.first_name ?? null,
-        timezone: env.USER_TIMEZONE,
-      }));
+    const user = await ensureUser(String(ctx.chat.id), ctx.from?.first_name ?? null);
 
     // Attribute the reply to a recent check-in (if any) so we can interpret terse answers.
     const since = DateTime.now().minus({ hours: 18 }).toJSDate();
     const checkIn = await latestRecentCheckIn(user.id, since);
+
+    // Replies to the daily braindump become todos (one per line), not journal entries.
+    if (checkIn?.slot === "braindump") {
+      if (/^(no|nope|nah|nothing|none|nada|all good|n\/a)\.?$/i.test(text.trim())) {
+        await ctx.reply("all good — nothing saved.");
+        return;
+      }
+      const items = text.split("\n").map((l) => l.trim()).filter(Boolean);
+      const list = items.length ? items : [text.trim()];
+      for (const item of list) await addTodo({ userId: user.id, text: item, source: "braindump" });
+      const open = await listOpenTodos(user.id);
+      await ctx.reply(`saved ${list.length} to your todos — ${open.length} open now. see them with /todos.`);
+      return;
+    }
 
     const entry = await recordEntry({
       userId: user.id,

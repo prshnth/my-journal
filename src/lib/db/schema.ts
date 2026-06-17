@@ -95,8 +95,27 @@ export const signals = pgTable(
   (t) => [index("signals_entry_idx").on(t.entryId)],
 );
 
+/** Lightweight todo items — captured via /todos, the daily braindump, or the dashboard. */
+export const todos = pgTable(
+  "todos",
+  {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    text: text("text").notNull(),
+    done: boolean("done").notNull().default(false),
+    source: text("source").notNull().default("command"), // "command" | "braindump" | "ui"
+    sourceEntryId: integer("source_entry_id").references(() => entries.id),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+  },
+  (t) => [index("todos_user_done_idx").on(t.userId, t.done, t.createdAt)],
+);
+
 export type User = typeof users.$inferSelect;
 export type Prompt = typeof prompts.$inferSelect;
 export type CheckIn = typeof checkIns.$inferSelect;
 export type Entry = typeof entries.$inferSelect;
 export type Signal = typeof signals.$inferSelect;
+export type Todo = typeof todos.$inferSelect;

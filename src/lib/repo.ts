@@ -1,7 +1,7 @@
-import { and, desc, eq, gte } from "drizzle-orm";
+import { and, asc, desc, eq, gte } from "drizzle-orm";
 import { db } from "./db";
-import { users, prompts, checkIns, entries, signals } from "./db/schema";
-import type { User, CheckIn, Entry } from "./db/schema";
+import { users, prompts, checkIns, entries, signals, todos } from "./db/schema";
+import type { User, CheckIn, Entry, Todo } from "./db/schema";
 import type { ExtractedSignals } from "./signals/types";
 import type { CheckInPrompt, Slot } from "./prompts/types";
 import { PROMPT_CATALOG } from "./prompts/catalog";
@@ -83,6 +83,26 @@ export async function recordCheckIn(opts: {
   return row ?? null;
 }
 
+/** Records the once-a-day braindump nudge (its own slot, so it never collides with journals). */
+export async function recordBraindumpCheckIn(opts: {
+  userId: number;
+  localDate: string;
+  text: string;
+}): Promise<CheckIn | null> {
+  const [row] = await db
+    .insert(checkIns)
+    .values({
+      userId: opts.userId,
+      slot: "braindump",
+      text: opts.text,
+      source: "braindump",
+      localDate: opts.localDate,
+    })
+    .onConflictDoNothing({ target: [checkIns.userId, checkIns.slot, checkIns.localDate] })
+    .returning();
+  return row ?? null;
+}
+
 export async function setCheckInMessageId(
   checkInId: number,
   telegramMessageId: string,
@@ -150,4 +170,51 @@ export async function seedPromptsIfEmpty(): Promise<number> {
     .insert(prompts)
     .values(PROMPT_CATALOG.map((p) => ({ slot: p.slot, text: p.text, tags: p.tags })));
   return PROMPT_CATALOG.length;
+}
+
+// --- todos ---
+
+export async function addTodo(opts: {
+  userId: number;
+  text: string;
+  source?: string;
+  sourceEntryId?: number | null;
+}): Promise<Todo> {
+  const [row] = await db
+    .insert(todos)
+    .values({
+      userId: opts.userId,
+      text: opts.text,
+      source: opts.source ?? "command",
+      sourceEntryId: opts.sourceEntryId ?? null,
+    })
+    .returning();
+  return row;
+}
+
+export async function listOpenTodos(userId: number): Promise<Todo[]> {
+  return db
+    .select()
+    .from(todos)
+    .where(and(eq(todos.userId, userId), eq(todos.done, false)))
+    .orderBy(asc(todos.createdAt));
+}
+
+export async function listTodos(userId: number): Promise<Todo[]> {
+  return db
+    .select()
+    .from(todos)
+    .where(eq(todos.userId, userId))
+    .orderBy(asc(todos.done), desc(todos.createdAt));
+}
+
+export async function setTodoDone(id: number, done: boolean): Promise<void> {
+  await db
+    .update(todos)
+    .set({ done, completedAt: done ? new Date() : null })
+    .where(eq(todos.id, id));
+}
+
+export async function deleteTodo(id: number): Promise<void> {
+  await db.delete(todos).where(eq(todos.id, id));
 }

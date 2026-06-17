@@ -55,3 +55,21 @@ export function currentSlot(timezone: string, now: DateTime = DateTime.now()): S
   }
   return chosen;
 }
+
+/** The daily "anything on your mind?" braindump nudge — its replies become todos. */
+export const BRAINDUMP = { hour: 18, minute: 0 };
+
+export const BRAINDUMP_PROMPT =
+  "anything on your mind? jot down whatever you want to remember or get done — " +
+  "one per line — and i'll save them to your todos.";
+
+/** Today's local date if the braindump is due within the grace window, else null. */
+export function braindumpDue(timezone: string, now: DateTime = DateTime.now()): string | null {
+  const local = now.setZone(timezone);
+  const minutesNow = local.hour * 60 + local.minute;
+  const target = BRAINDUMP.hour * 60 + BRAINDUMP.minute;
+  if (minutesNow >= target && minutesNow < target + GRACE_MINUTES) {
+    return local.toFormat("yyyy-LL-dd");
+  }
+  return null;
+}
