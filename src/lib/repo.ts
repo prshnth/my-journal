@@ -103,6 +103,42 @@ export async function recordBraindumpCheckIn(opts: {
   return row ?? null;
 }
 
+/**
+ * Manual /checkin: upserts the slot's check-in so it becomes the latest, even if that slot
+ * already fired today. Without this, a reply could attribute to an earlier/other check-in.
+ */
+export async function recordManualCheckIn(opts: {
+  userId: number;
+  slot: Slot;
+  prompt: CheckInPrompt;
+  localDate: string;
+  telegramMessageId?: string | null;
+}): Promise<CheckIn> {
+  const [row] = await db
+    .insert(checkIns)
+    .values({
+      userId: opts.userId,
+      slot: opts.slot,
+      promptId: opts.prompt.promptId ?? null,
+      text: opts.prompt.text,
+      source: opts.prompt.source,
+      localDate: opts.localDate,
+      telegramMessageId: opts.telegramMessageId ?? null,
+    })
+    .onConflictDoUpdate({
+      target: [checkIns.userId, checkIns.slot, checkIns.localDate],
+      set: {
+        promptId: opts.prompt.promptId ?? null,
+        text: opts.prompt.text,
+        source: opts.prompt.source,
+        sentAt: new Date(),
+        telegramMessageId: opts.telegramMessageId ?? null,
+      },
+    })
+    .returning();
+  return row;
+}
+
 export async function setCheckInMessageId(
   checkInId: number,
   telegramMessageId: string,
@@ -217,4 +253,14 @@ export async function setTodoDone(id: number, done: boolean): Promise<void> {
 
 export async function deleteTodo(id: number): Promise<void> {
   await db.delete(todos).where(eq(todos.id, id));
+}
+
+/** Whether any todo was created at/after `since` — used to detect an already-answered braindump. */
+export async function hasTodoSince(userId: number, since: Date): Promise<boolean> {
+  const [row] = await db
+    .select({ id: todos.id })
+    .from(todos)
+    .where(and(eq(todos.userId, userId), gte(todos.createdAt, since)))
+    .limit(1);
+  return Boolean(row);
 }

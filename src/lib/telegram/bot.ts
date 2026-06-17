@@ -6,10 +6,11 @@ import type { ExtractedSignals, ResponseProcessor } from "../signals/types";
 import {
   addTodo,
   getUserByChatId,
+  hasTodoSince,
   latestRecentCheckIn,
   listOpenTodos,
-  recordCheckIn,
   recordEntry,
+  recordManualCheckIn,
   saveSignals,
   setTodoDone,
   upsertUser,
@@ -76,7 +77,7 @@ export function createBot(): Bot {
     const sent = await ctx.reply(prompt.text);
     // Record it so your reply attributes to this prompt. If this slot already fired today it
     // returns null — the nudge still goes out and the reply maps to that slot's check-in.
-    await recordCheckIn({
+    await recordManualCheckIn({
       userId: user.id,
       slot,
       prompt,
@@ -128,20 +129,24 @@ export function createBot(): Bot {
 
     // Attribute the reply to a recent check-in (if any) so we can interpret terse answers.
     const since = DateTime.now().minus({ hours: 18 }).toJSDate();
-    const checkIn = await latestRecentCheckIn(user.id, since);
+    let checkIn = await latestRecentCheckIn(user.id, since);
 
-    // Replies to the daily braindump become todos (one per line), not journal entries.
+    // The daily braindump turns replies into todos — but only the FIRST reply to it. Once it's
+    // been answered (a todo exists since it was sent), later replies journal as normal.
     if (checkIn?.slot === "braindump") {
-      if (/^(no|nope|nah|nothing|none|nada|all good|n\/a)\.?$/i.test(text.trim())) {
-        await ctx.reply("all good — nothing saved.");
+      if (!(await hasTodoSince(user.id, checkIn.sentAt))) {
+        if (/^(no|nope|nah|nothing|none|nada|all good|n\/a)\.?$/i.test(text.trim())) {
+          await ctx.reply("all good — nothing saved.");
+          return;
+        }
+        const items = text.split("\n").map((l) => l.trim()).filter(Boolean);
+        const list = items.length ? items : [text.trim()];
+        for (const item of list) await addTodo({ userId: user.id, text: item, source: "braindump" });
+        const open = await listOpenTodos(user.id);
+        await ctx.reply(`saved ${list.length} to your todos — ${open.length} open now. see them with /todos.`);
         return;
       }
-      const items = text.split("\n").map((l) => l.trim()).filter(Boolean);
-      const list = items.length ? items : [text.trim()];
-      for (const item of list) await addTodo({ userId: user.id, text: item, source: "braindump" });
-      const open = await listOpenTodos(user.id);
-      await ctx.reply(`saved ${list.length} to your todos — ${open.length} open now. see them with /todos.`);
-      return;
+      checkIn = undefined; // already braindumped today → treat this as ordinary journaling
     }
 
     const entry = await recordEntry({
