@@ -4,6 +4,9 @@ import { dashboardPassword, sessionOptions, type SessionData } from "@/lib/auth/
 
 export const dynamic = "force-dynamic";
 
+// We send a RELATIVE Location (just the path). The browser resolves it against the public
+// URL in its address bar, so this works behind Caddy — building an absolute URL from
+// req.url would leak the internal http://localhost:3000 host.
 export async function POST(req: NextRequest) {
   const form = await req.formData();
   const password = dashboardPassword();
@@ -13,19 +16,13 @@ export async function POST(req: NextRequest) {
 
   // Wrong password → back to the login page with an error flag.
   if (password && submitted !== password) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/login";
-    url.search = "";
-    url.searchParams.set("error", "1");
-    if (dest !== "/journal") url.searchParams.set("next", dest);
-    return NextResponse.redirect(url, 303);
+    const params = new URLSearchParams({ error: "1" });
+    if (dest !== "/journal") params.set("next", dest);
+    return new NextResponse(null, { status: 303, headers: { location: `/login?${params}` } });
   }
 
   // Correct (or no password configured) → seal the session and go to the dashboard.
-  const url = req.nextUrl.clone();
-  url.pathname = dest;
-  url.search = "";
-  const res = NextResponse.redirect(url, 303);
+  const res = new NextResponse(null, { status: 303, headers: { location: dest } });
   const session = await getIronSession<SessionData>(req, res, await sessionOptions());
   session.authenticated = true;
   await session.save();

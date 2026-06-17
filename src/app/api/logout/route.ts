@@ -5,10 +5,8 @@ import { sessionOptions, type SessionData } from "@/lib/auth/session";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  const url = req.nextUrl.clone();
-  url.pathname = "/login";
-  url.search = "";
-  const res = NextResponse.redirect(url, 303);
+  // Relative Location so it resolves against the public URL (works behind Caddy).
+  const res = new NextResponse(null, { status: 303, headers: { location: "/login" } });
   const session = await getIronSession<SessionData>(req, res, await sessionOptions());
   session.destroy();
   return res;
