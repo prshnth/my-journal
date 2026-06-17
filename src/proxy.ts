@@ -7,8 +7,8 @@ export async function proxy(req: NextRequest): Promise<NextResponse> {
   if (!dashboardPassword()) return NextResponse.next();
 
   const { pathname } = req.nextUrl;
-  // The login page (and the server-action POST it submits to) must stay reachable.
-  if (pathname === "/login") return NextResponse.next();
+  // The login page and its submit endpoint must stay reachable while unauthenticated.
+  if (pathname === "/login" || pathname === "/api/login") return NextResponse.next();
 
   const res = NextResponse.next();
   const session = await getIronSession<SessionData>(req, res, await sessionOptions());

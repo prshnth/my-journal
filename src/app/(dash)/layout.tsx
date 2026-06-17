@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { Nav } from "@/components/Nav";
-import { logout } from "@/lib/auth/actions";
 
 export default function DashLayout({ children }: { children: ReactNode }) {
   return (
@@ -9,7 +8,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
         <div className="mx-auto max-w-5xl px-5">
           <div className="flex items-center justify-between gap-3 py-3">
             <span className="text-sm font-semibold tracking-tight">my journal</span>
-            <form action={logout}>
+            <form method="POST" action="/api/logout">
               <button type="submit" className="text-xs text-zinc-500 transition hover:text-zinc-300">
                 log out
               </button>
