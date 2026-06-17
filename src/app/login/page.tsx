@@ -1,27 +1,21 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createSessionToken, SESSION_COOKIE } from "@/lib/auth/session";
+import { getIronSession } from "iron-session";
+import { dashboardPassword, sessionOptions, type SessionData } from "@/lib/auth/session";
 
 export const dynamic = "force-dynamic";
 
-const TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
-
 async function login(formData: FormData): Promise<void> {
   "use server";
-  const password = process.env.DASHBOARD_PASSWORD ?? "";
+  const password = dashboardPassword();
   const submitted = String(formData.get("password") ?? "");
   const next = String(formData.get("next") ?? "/");
   const dest = next.startsWith("/") ? next : "/";
 
   if (!password || submitted === password) {
-    const token = await createSessionToken(password || "open", TTL_MS);
-    (await cookies()).set(SESSION_COOKIE, token, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: TTL_MS / 1000,
-    });
+    const session = await getIronSession<SessionData>(await cookies(), await sessionOptions());
+    session.authenticated = true;
+    await session.save();
     redirect(dest);
   }
   redirect(`/login?error=1&next=${encodeURIComponent(dest)}`);

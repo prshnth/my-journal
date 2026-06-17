@@ -1,64 +1,40 @@
-// Signed session token, safe in both the Edge (middleware) and Node (server action)
-// runtimes — uses only Web Crypto + base64, no Node-specific APIs. The secret is the
-// dashboard password, so rotating the password invalidates existing sessions.
+import type { SessionOptions } from "iron-session";
 
-const encoder = new TextEncoder();
+export interface SessionData {
+  authenticated?: boolean;
+}
 
 export const SESSION_COOKIE = "mj_session";
 
-function base64url(bytes: Uint8Array): string {
-  let bin = "";
-  for (const b of bytes) bin += String.fromCharCode(b);
-  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+// Computed keys keep the bundler from inlining these at build time — the values come
+// from the container environment at runtime, so the gate and the login always agree.
+const PASS_KEY = "DASHBOARD_PASSWORD";
+const SECRET_KEY = "SESSION_SECRET";
+
+/** The shared dashboard password (the login secret). Empty string = auth disabled. */
+export function dashboardPassword(): string {
+  return process.env[PASS_KEY] ?? "";
 }
 
-function fromBase64url(s: string): Uint8Array {
-  const b64 = s.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((s.length + 3) % 4);
-  const bin = atob(b64);
-  const out = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-  return out;
+/** A 64-char sealing key from SESSION_SECRET (preferred) or the dashboard password. */
+async function sealingKey(): Promise<string> {
+  const raw = process.env[SECRET_KEY] || process.env[PASS_KEY] || "dev-insecure-secret";
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`mj:${raw}`));
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
-async function hmac(secret: string, data: string): Promise<Uint8Array> {
-  const key = await crypto.subtle.importKey(
-    "raw",
-    encoder.encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"],
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, encoder.encode(data));
-  return new Uint8Array(sig);
-}
-
-function timingSafeEqual(a: Uint8Array, b: Uint8Array): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
-  return diff === 0;
-}
-
-/** `base64url(JSON payload).base64url(hmac)` — payload carries an absolute expiry. */
-export async function createSessionToken(secret: string, ttlMs: number): Promise<string> {
-  const payload = base64url(encoder.encode(JSON.stringify({ exp: Date.now() + ttlMs })));
-  const sig = base64url(await hmac(secret, payload));
-  return `${payload}.${sig}`;
-}
-
-export async function verifySessionToken(
-  secret: string,
-  token: string | undefined | null,
-): Promise<boolean> {
-  if (!token) return false;
-  const [payload, sig] = token.split(".");
-  if (!payload || !sig) return false;
-  const expected = await hmac(secret, payload);
-  if (!timingSafeEqual(fromBase64url(sig), expected)) return false;
-  try {
-    const { exp } = JSON.parse(new TextDecoder().decode(fromBase64url(payload)));
-    return typeof exp === "number" && exp > Date.now();
-  } catch {
-    return false;
-  }
+export async function sessionOptions(): Promise<SessionOptions> {
+  return {
+    password: await sealingKey(),
+    cookieName: SESSION_COOKIE,
+    cookieOptions: {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    },
+  };
 }

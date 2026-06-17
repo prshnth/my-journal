@@ -1,21 +1,18 @@
+import { getIronSession } from "iron-session";
 import { NextResponse, type NextRequest } from "next/server";
-import { SESSION_COOKIE, verifySessionToken } from "./lib/auth/session";
-
-// Read at runtime (computed key avoids build-time inlining), so the password is supplied
-// by the container environment at deploy time and never baked into the image.
-const PASS_KEY = "DASHBOARD_PASSWORD";
+import { dashboardPassword, sessionOptions, type SessionData } from "./lib/auth/session";
 
 export async function proxy(req: NextRequest): Promise<NextResponse> {
-  const password = process.env[PASS_KEY] ?? "";
   // No password configured → protection disabled (local dev convenience).
-  if (!password) return NextResponse.next();
+  if (!dashboardPassword()) return NextResponse.next();
 
   const { pathname } = req.nextUrl;
   // The login page (and the server-action POST it submits to) must stay reachable.
   if (pathname === "/login") return NextResponse.next();
 
-  const token = req.cookies.get(SESSION_COOKIE)?.value;
-  if (await verifySessionToken(password, token)) return NextResponse.next();
+  const res = NextResponse.next();
+  const session = await getIronSession<SessionData>(req, res, await sessionOptions());
+  if (session.authenticated) return res;
 
   const url = req.nextUrl.clone();
   url.pathname = "/login";
