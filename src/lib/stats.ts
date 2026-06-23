@@ -1,7 +1,7 @@
 import { asc, desc, eq } from "drizzle-orm";
 import { DateTime } from "luxon";
 import { db } from "./db";
-import { users, entries, signals, checkIns, todos } from "./db/schema";
+import { users, entries, checkIns, todos } from "./db/schema";
 import type { User } from "./db/schema";
 import { env } from "./env";
 
@@ -18,17 +18,11 @@ export interface EntryRow {
   receivedAt: string; // ISO
   text: string;
   promptText: string | null;
-  mood: number | null;
-  didRun: boolean | null;
-  sleepQuality: number | null;
-  energy: number | null;
-  tags: string[];
 }
 
 export interface CalendarDay {
   date: string;
   count: number;
-  mood: number | null;
 }
 
 export interface DashboardData {
@@ -38,11 +32,6 @@ export interface DashboardData {
   daily: DailyPoint[];
   recent: EntryRow[];
   calendar: CalendarDay[];
-}
-
-function avg(xs: number[]): number | null {
-  if (!xs.length) return null;
-  return Math.round((xs.reduce((a, b) => a + b, 0) / xs.length) * 100) / 100;
 }
 
 async function getOwner(): Promise<User | undefined> {
@@ -78,19 +67,13 @@ export async function getDashboardData(): Promise<DashboardData> {
       text: entries.text,
       receivedAt: entries.receivedAt,
       checkInText: checkIns.text,
-      mood: signals.mood,
-      didRun: signals.didRun,
-      sleepQuality: signals.sleepQuality,
-      energy: signals.energy,
-      tags: signals.tags,
     })
     .from(entries)
-    .leftJoin(signals, eq(signals.entryId, entries.id))
     .leftJoin(checkIns, eq(checkIns.id, entries.checkInId))
     .where(eq(entries.userId, owner.id))
-    .orderBy(desc(entries.receivedAt), desc(signals.createdAt));
+    .orderBy(desc(entries.receivedAt));
 
-  // One row per entry; ordering above puts the latest signal first.
+  // One row per entry.
   const unique: typeof rows = [];
   const seen = new Set<number>();
   for (const r of rows) {
@@ -101,23 +84,20 @@ export async function getDashboardData(): Promise<DashboardData> {
   }
 
   // Daily aggregation in the owner's timezone.
-  const dayMap = new Map<string, { moods: number[]; sleeps: number[]; runs: number; count: number }>();
+  const dayMap = new Map<string, { count: number }>();
   for (const r of unique) {
     const date = DateTime.fromJSDate(r.receivedAt).setZone(timezone).toFormat("yyyy-LL-dd");
-    const d = dayMap.get(date) ?? { moods: [], sleeps: [], runs: 0, count: 0 };
+    const d = dayMap.get(date) ?? { count: 0 };
     d.count++;
-    if (typeof r.mood === "number") d.moods.push(r.mood);
-    if (typeof r.sleepQuality === "number") d.sleeps.push(r.sleepQuality);
-    if (r.didRun === true) d.runs++;
     dayMap.set(date, d);
   }
   const daily: DailyPoint[] = [...dayMap.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([date, d]) => ({
       date,
-      mood: avg(d.moods),
-      sleep: avg(d.sleeps),
-      runs: d.runs,
+      mood: null,
+      sleep: null,
+      runs: 0,
       entries: d.count,
     }));
 
@@ -131,28 +111,11 @@ export async function getDashboardData(): Promise<DashboardData> {
     cursor = cursor.minus({ days: 1 });
   }
 
-  // Last 7 days roll-ups.
-  const sevenAgo = todayLocal.minus({ days: 6 });
-  let runs7 = 0;
-  const moods7: number[] = [];
-  for (const r of unique) {
-    const day = DateTime.fromJSDate(r.receivedAt).setZone(timezone).startOf("day");
-    if (day >= sevenAgo) {
-      if (r.didRun === true) runs7++;
-      if (typeof r.mood === "number") moods7.push(r.mood);
-    }
-  }
-
   const recent: EntryRow[] = unique.slice(0, 50).map((r) => ({
     id: r.entryId,
     receivedAt: r.receivedAt.toISOString(),
     text: r.text,
     promptText: r.checkInText ?? null,
-    mood: r.mood ?? null,
-    didRun: r.didRun ?? null,
-    sleepQuality: r.sleepQuality ?? null,
-    energy: r.energy ?? null,
-    tags: (r.tags as string[] | null) ?? [],
   }));
 
   // Activity calendar: the last 18 weeks, for the consistency heatmap.
@@ -163,20 +126,18 @@ export async function getDashboardData(): Promise<DashboardData> {
     const day = calStart.plus({ days: i });
     const key = day.toFormat("yyyy-LL-dd");
     const e = dayMap.get(key);
-    calendar.push({ date: key, count: e?.count ?? 0, mood: e ? avg(e.moods) : null });
+    calendar.push({ date: key, count: e?.count ?? 0 });
   }
 
   return {
     hasOwner: true,
     timezone,
-    totals: { entries: unique.length, streak, runs7, avgMood7: avg(moods7) },
+    totals: { entries: unique.length, streak, runs7: 0, avgMood7: null },
     daily,
     recent,
     calendar,
   };
 }
-
-export type JournalFilter = "all" | "ran" | "good" | "low" | "sleep";
 
 export interface JournalResult {
   hasOwner: boolean;
@@ -186,16 +147,14 @@ export interface JournalResult {
   hasMore: boolean;
 }
 
-/** Full entry history for the Journal tab, with text search + a signal filter, paginated. */
+/** Full entry history for the Journal tab, with text search, paginated. */
 export async function getJournalEntries(opts: {
   search?: string;
-  filter?: JournalFilter;
   limit?: number;
 }): Promise<JournalResult> {
   const owner = await getOwner();
   const timezone = owner?.timezone || env.USER_TIMEZONE;
   const q = (opts.search ?? "").trim().toLowerCase();
-  const filter = opts.filter ?? "all";
   const limit = opts.limit ?? 50;
   if (!owner) {
     return { hasOwner: false, timezone, entries: [], total: 0, hasMore: false };
@@ -207,39 +166,24 @@ export async function getJournalEntries(opts: {
       text: entries.text,
       receivedAt: entries.receivedAt,
       checkInText: checkIns.text,
-      mood: signals.mood,
-      didRun: signals.didRun,
-      sleepQuality: signals.sleepQuality,
-      energy: signals.energy,
-      tags: signals.tags,
     })
     .from(entries)
-    .leftJoin(signals, eq(signals.entryId, entries.id))
     .leftJoin(checkIns, eq(checkIns.id, entries.checkInId))
     .where(eq(entries.userId, owner.id))
-    .orderBy(desc(entries.receivedAt), desc(signals.createdAt));
+    .orderBy(desc(entries.receivedAt));
 
-  // One row per entry (latest signal first), then apply search + filter.
+  // One row per entry, then apply search.
   const seen = new Set<number>();
   const matched: EntryRow[] = [];
   for (const r of rows) {
     if (seen.has(r.entryId)) continue;
     seen.add(r.entryId);
     if (q && !r.text.toLowerCase().includes(q)) continue;
-    if (filter === "ran" && r.didRun !== true) continue;
-    if (filter === "good" && !(typeof r.mood === "number" && r.mood >= 1)) continue;
-    if (filter === "low" && !(typeof r.mood === "number" && r.mood <= -1)) continue;
-    if (filter === "sleep" && typeof r.sleepQuality !== "number") continue;
     matched.push({
       id: r.entryId,
       receivedAt: r.receivedAt.toISOString(),
       text: r.text,
       promptText: r.checkInText ?? null,
-      mood: r.mood ?? null,
-      didRun: r.didRun ?? null,
-      sleepQuality: r.sleepQuality ?? null,
-      energy: r.energy ?? null,
-      tags: (r.tags as string[] | null) ?? [],
     });
   }
 

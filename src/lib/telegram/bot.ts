@@ -1,8 +1,6 @@
 import { Bot } from "grammy";
 import { DateTime } from "luxon";
 import { env } from "../env";
-import { RuleBasedProcessor } from "../signals/rules";
-import type { ExtractedSignals, ResponseProcessor } from "../signals/types";
 import {
   addTodo,
   getUserByChatId,
@@ -11,7 +9,6 @@ import {
   listOpenTodos,
   recordEntry,
   recordManualCheckIn,
-  saveSignals,
   setTodoDone,
   upsertUser,
 } from "../repo";
@@ -20,7 +17,6 @@ import { SLOTS, type Slot } from "../prompts/types";
 import { currentSlot, localDateFor } from "../scheduler/slots";
 import type { User } from "../db/schema";
 
-const processor: ResponseProcessor = new RuleBasedProcessor();
 const promptProvider = new RotatingPromptProvider();
 
 async function ensureUser(chatId: string, firstName: string | null): Promise<User> {
@@ -149,27 +145,16 @@ export function createBot(): Bot {
       checkIn = undefined; // already braindumped today → treat this as ordinary journaling
     }
 
-    const entry = await recordEntry({
+    await recordEntry({
       userId: user.id,
       text,
       telegramMessageId: String(ctx.message.message_id),
       checkInId: checkIn?.id ?? null,
     });
 
-    const extracted = await processor.process({ text }, { promptText: checkIn?.text });
-    await saveSignals(entry.id, extracted, processor.name);
-
-    await ctx.reply(ackFor(extracted));
+    await ctx.reply("logged. thanks for checking in.");
   });
 
   bot.catch((err) => console.error("[bot] error handling update:", err));
   return bot;
-}
-
-/** A small varied acknowledgement so replies feel heard without any AI in the loop yet. */
-function ackFor(s: ExtractedSignals): string {
-  if (s.didRun === true) return "nice — logged. proud of you for moving today.";
-  if (typeof s.mood === "number" && s.mood <= -1) return "got it, logged. hope it eases up — i'm here.";
-  if (typeof s.mood === "number" && s.mood >= 1) return "love that. logged it.";
-  return "logged. thanks for checking in.";
 }

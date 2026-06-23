@@ -18,17 +18,9 @@ export async function GET(req: NextRequest) {
       const when = DateTime.fromISO(e.receivedAt)
         .setZone(journal.timezone)
         .toFormat("ccc, LLL d yyyy · HH:mm");
-      const meta = [
-        typeof e.mood === "number" ? `mood ${e.mood}` : null,
-        e.didRun === true ? "ran" : null,
-        typeof e.sleepQuality === "number" ? `sleep ${e.sleepQuality}/5` : null,
-      ]
-        .filter(Boolean)
-        .join(" · ");
       lines.push(`## ${when}`);
       if (e.promptText) lines.push(`> ${e.promptText}`, "");
       lines.push(e.text, "");
-      if (meta) lines.push(`_${meta}_`, "");
       lines.push("---", "");
     }
     if (todos.open.length || todos.done.length) {

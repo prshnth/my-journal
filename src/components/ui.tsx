@@ -28,20 +28,6 @@ export function EmptyState({ title, body }: { title: string; body: string }) {
   );
 }
 
-export function Chip({ children }: { children: ReactNode }) {
-  return (
-    <span className="rounded-full border border-zinc-700 bg-zinc-800 px-2 py-0.5 text-[11px] text-zinc-300">
-      {children}
-    </span>
-  );
-}
-
-export function moodLabel(m: number): string {
-  if (m <= -1) return "low";
-  if (m >= 1) return "good";
-  return "ok";
-}
-
 export function EntryItem({ entry, timezone }: { entry: EntryRow; timezone: string }) {
   const when = new Date(entry.receivedAt).toLocaleString("en-US", {
     timeZone: timezone,
@@ -54,11 +40,6 @@ export function EntryItem({ entry, timezone }: { entry: EntryRow; timezone: stri
     <li className="rounded-xl border border-zinc-800 bg-zinc-900/50 px-4 py-3">
       <div className="mb-1 flex items-center justify-between gap-3">
         <span className="text-xs text-zinc-500">{when}</span>
-        <div className="flex flex-wrap gap-1.5">
-          {entry.didRun === true && <Chip>ran</Chip>}
-          {typeof entry.sleepQuality === "number" && <Chip>sleep {entry.sleepQuality}/5</Chip>}
-          {typeof entry.mood === "number" && <Chip>{moodLabel(entry.mood)}</Chip>}
-        </div>
       </div>
       {entry.promptText && <div className="text-xs text-zinc-500">{entry.promptText}</div>}
       <div className="text-sm whitespace-pre-wrap text-zinc-100">{entry.text}</div>
