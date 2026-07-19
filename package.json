@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "test": "node --import tsx --test src/lib/scheduler/slots.test.ts src/lib/signals/rules.test.ts src/lib/training/plan.test.ts",
     "start": "next start",
     "lint": "eslint",
     "worker": "tsx watch src/worker/index.ts",

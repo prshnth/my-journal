@@ -1,14 +1,15 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { DateTime } from "luxon";
-import { getJournalEntries, getOwnerTodos } from "@/lib/stats";
+import { getJournalEntries, getOwnerTodos, getRunsData } from "@/lib/stats";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   const asMarkdown = req.nextUrl.searchParams.get("format") === "md";
-  const [journal, todos] = await Promise.all([
+  const [journal, todos, runs] = await Promise.all([
     getJournalEntries({ limit: 1_000_000 }),
     getOwnerTodos(),
+    getRunsData(1_000_000),
   ]);
   const stamp = DateTime.now().toFormat("yyyy-LL-dd");
 
@@ -29,6 +30,19 @@ export async function GET(req: NextRequest) {
       for (const t of todos.done) lines.push(`- [x] ${t.text}`);
       lines.push("");
     }
+    if (runs.recent.length) {
+      lines.push("# runs", "");
+      for (const run of runs.recent) {
+        const details = [
+          run.sessionType,
+          run.minutes === null ? null : `${run.minutes} min`,
+          run.energy === null ? null : `energy ${run.energy}/5`,
+          run.pain === null ? null : `pain ${run.pain}/10`,
+        ].filter(Boolean);
+        lines.push(`## ${run.date}${details.length ? ` · ${details.join(" · ")}` : ""}`);
+        lines.push(run.text, "");
+      }
+    }
     return new NextResponse(lines.join("\n"), {
       headers: {
         "content-type": "text/markdown; charset=utf-8",
@@ -41,6 +55,7 @@ export async function GET(req: NextRequest) {
     exportedAt: new Date().toISOString(),
     timezone: journal.timezone,
     entries: journal.entries,
+    runs: runs.recent,
     todos: { open: todos.open, done: todos.done },
   };
   return new NextResponse(JSON.stringify(payload, null, 2), {

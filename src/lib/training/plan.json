@@ -1,7 +1,7 @@
 [
  {
-  "date": "2026-07-18",
-  "day": "Saturday",
+  "date": "2026-07-19",
+  "day": "Sunday",
   "week": 1,
   "phase": "RESET",
   "sessionType": "Long Run",
@@ -13,8 +13,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-07-19",
-  "day": "Sunday",
+  "date": "2026-07-20",
+  "day": "Monday",
   "week": 1,
   "phase": "RESET",
   "sessionType": "Rest",
@@ -26,8 +26,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-07-20",
-  "day": "Monday",
+  "date": "2026-07-21",
+  "day": "Tuesday",
   "week": 1,
   "phase": "RESET",
   "sessionType": "Strength",
@@ -39,8 +39,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-07-21",
-  "day": "Tuesday",
+  "date": "2026-07-22",
+  "day": "Wednesday",
   "week": 1,
   "phase": "RESET",
   "sessionType": "Run",
@@ -52,8 +52,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-07-22",
-  "day": "Wednesday",
+  "date": "2026-07-23",
+  "day": "Thursday",
   "week": 1,
   "phase": "RESET",
   "sessionType": "Recovery + Mobility",
@@ -65,8 +65,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-07-23",
-  "day": "Thursday",
+  "date": "2026-07-24",
+  "day": "Friday",
   "week": 1,
   "phase": "RESET",
   "sessionType": "Run / Quality",
@@ -78,8 +78,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-07-24",
-  "day": "Friday",
+  "date": "2026-07-25",
+  "day": "Saturday",
   "week": 1,
   "phase": "RESET",
   "sessionType": "Strength",
@@ -91,8 +91,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-07-25",
-  "day": "Saturday",
+  "date": "2026-07-26",
+  "day": "Sunday",
   "week": 2,
   "phase": "RESET",
   "sessionType": "Long Run",
@@ -104,8 +104,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-07-26",
-  "day": "Sunday",
+  "date": "2026-07-27",
+  "day": "Monday",
   "week": 2,
   "phase": "RESET",
   "sessionType": "Rest",
@@ -117,8 +117,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-07-27",
-  "day": "Monday",
+  "date": "2026-07-28",
+  "day": "Tuesday",
   "week": 2,
   "phase": "RESET",
   "sessionType": "Strength",
@@ -130,8 +130,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-07-28",
-  "day": "Tuesday",
+  "date": "2026-07-29",
+  "day": "Wednesday",
   "week": 2,
   "phase": "RESET",
   "sessionType": "Run",
@@ -143,8 +143,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-07-29",
-  "day": "Wednesday",
+  "date": "2026-07-30",
+  "day": "Thursday",
   "week": 2,
   "phase": "RESET",
   "sessionType": "Recovery + Mobility",
@@ -156,8 +156,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-07-30",
-  "day": "Thursday",
+  "date": "2026-07-31",
+  "day": "Friday",
   "week": 2,
   "phase": "RESET",
   "sessionType": "Run / Quality",
@@ -169,8 +169,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-07-31",
-  "day": "Friday",
+  "date": "2026-08-01",
+  "day": "Saturday",
   "week": 2,
   "phase": "RESET",
   "sessionType": "Strength",
@@ -182,8 +182,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-08-01",
-  "day": "Saturday",
+  "date": "2026-08-02",
+  "day": "Sunday",
   "week": 3,
   "phase": "RESET",
   "sessionType": "Long Run",
@@ -195,8 +195,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-08-02",
-  "day": "Sunday",
+  "date": "2026-08-03",
+  "day": "Monday",
   "week": 3,
   "phase": "RESET",
   "sessionType": "Rest",
@@ -208,8 +208,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-08-03",
-  "day": "Monday",
+  "date": "2026-08-04",
+  "day": "Tuesday",
   "week": 3,
   "phase": "RESET",
   "sessionType": "Strength",
@@ -221,8 +221,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-08-04",
-  "day": "Tuesday",
+  "date": "2026-08-05",
+  "day": "Wednesday",
   "week": 3,
   "phase": "RESET",
   "sessionType": "Run",
@@ -234,8 +234,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-08-05",
-  "day": "Wednesday",
+  "date": "2026-08-06",
+  "day": "Thursday",
   "week": 3,
   "phase": "RESET",
   "sessionType": "Recovery + Mobility",
@@ -247,8 +247,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-08-06",
-  "day": "Thursday",
+  "date": "2026-08-07",
+  "day": "Friday",
   "week": 3,
   "phase": "RESET",
   "sessionType": "Run / Quality",
@@ -260,8 +260,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-08-07",
-  "day": "Friday",
+  "date": "2026-08-08",
+  "day": "Saturday",
   "week": 3,
   "phase": "RESET",
   "sessionType": "Strength",
@@ -273,8 +273,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-08-08",
-  "day": "Saturday",
+  "date": "2026-08-09",
+  "day": "Sunday",
   "week": 4,
   "phase": "RESET",
   "sessionType": "Long Run",
@@ -286,8 +286,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-08-09",
-  "day": "Sunday",
+  "date": "2026-08-10",
+  "day": "Monday",
   "week": 4,
   "phase": "RESET",
   "sessionType": "Rest",
@@ -299,8 +299,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-08-10",
-  "day": "Monday",
+  "date": "2026-08-11",
+  "day": "Tuesday",
   "week": 4,
   "phase": "RESET",
   "sessionType": "Strength",
@@ -312,8 +312,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-08-11",
-  "day": "Tuesday",
+  "date": "2026-08-12",
+  "day": "Wednesday",
   "week": 4,
   "phase": "RESET",
   "sessionType": "Run",
@@ -325,8 +325,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-08-12",
-  "day": "Wednesday",
+  "date": "2026-08-13",
+  "day": "Thursday",
   "week": 4,
   "phase": "RESET",
   "sessionType": "Recovery + Mobility",
@@ -338,8 +338,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-08-13",
-  "day": "Thursday",
+  "date": "2026-08-14",
+  "day": "Friday",
   "week": 4,
   "phase": "RESET",
   "sessionType": "Run / Quality",
@@ -351,8 +351,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-08-14",
-  "day": "Friday",
+  "date": "2026-08-15",
+  "day": "Saturday",
   "week": 4,
   "phase": "RESET",
   "sessionType": "Strength",
@@ -364,8 +364,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-08-15",
-  "day": "Saturday",
+  "date": "2026-08-16",
+  "day": "Sunday",
   "week": 5,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Long Run",
@@ -377,8 +377,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-08-16",
-  "day": "Sunday",
+  "date": "2026-08-17",
+  "day": "Monday",
   "week": 5,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Rest",
@@ -390,8 +390,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-08-17",
-  "day": "Monday",
+  "date": "2026-08-18",
+  "day": "Tuesday",
   "week": 5,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -403,8 +403,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-08-18",
-  "day": "Tuesday",
+  "date": "2026-08-19",
+  "day": "Wednesday",
   "week": 5,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run",
@@ -416,8 +416,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-08-19",
-  "day": "Wednesday",
+  "date": "2026-08-20",
+  "day": "Thursday",
   "week": 5,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Recovery + Mobility",
@@ -429,8 +429,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-08-20",
-  "day": "Thursday",
+  "date": "2026-08-21",
+  "day": "Friday",
   "week": 5,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run / Quality",
@@ -442,8 +442,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-08-21",
-  "day": "Friday",
+  "date": "2026-08-22",
+  "day": "Saturday",
   "week": 5,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -455,8 +455,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-08-22",
-  "day": "Saturday",
+  "date": "2026-08-23",
+  "day": "Sunday",
   "week": 6,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Long Run",
@@ -468,8 +468,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-08-23",
-  "day": "Sunday",
+  "date": "2026-08-24",
+  "day": "Monday",
   "week": 6,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Rest",
@@ -481,8 +481,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-08-24",
-  "day": "Monday",
+  "date": "2026-08-25",
+  "day": "Tuesday",
   "week": 6,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -494,8 +494,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-08-25",
-  "day": "Tuesday",
+  "date": "2026-08-26",
+  "day": "Wednesday",
   "week": 6,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run",
@@ -507,8 +507,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-08-26",
-  "day": "Wednesday",
+  "date": "2026-08-27",
+  "day": "Thursday",
   "week": 6,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Recovery + Mobility",
@@ -520,8 +520,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-08-27",
-  "day": "Thursday",
+  "date": "2026-08-28",
+  "day": "Friday",
   "week": 6,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run / Quality",
@@ -533,8 +533,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-08-28",
-  "day": "Friday",
+  "date": "2026-08-29",
+  "day": "Saturday",
   "week": 6,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -546,8 +546,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-08-29",
-  "day": "Saturday",
+  "date": "2026-08-30",
+  "day": "Sunday",
   "week": 7,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Long Run",
@@ -559,8 +559,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-08-30",
-  "day": "Sunday",
+  "date": "2026-08-31",
+  "day": "Monday",
   "week": 7,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Rest",
@@ -572,8 +572,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-08-31",
-  "day": "Monday",
+  "date": "2026-09-01",
+  "day": "Tuesday",
   "week": 7,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -585,8 +585,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-09-01",
-  "day": "Tuesday",
+  "date": "2026-09-02",
+  "day": "Wednesday",
   "week": 7,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run",
@@ -598,8 +598,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-09-02",
-  "day": "Wednesday",
+  "date": "2026-09-03",
+  "day": "Thursday",
   "week": 7,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Recovery + Mobility",
@@ -611,8 +611,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-09-03",
-  "day": "Thursday",
+  "date": "2026-09-04",
+  "day": "Friday",
   "week": 7,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run / Quality",
@@ -624,8 +624,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-09-04",
-  "day": "Friday",
+  "date": "2026-09-05",
+  "day": "Saturday",
   "week": 7,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -637,8 +637,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-09-05",
-  "day": "Saturday",
+  "date": "2026-09-06",
+  "day": "Sunday",
   "week": 8,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Long Run",
@@ -650,8 +650,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-09-06",
-  "day": "Sunday",
+  "date": "2026-09-07",
+  "day": "Monday",
   "week": 8,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Rest",
@@ -663,8 +663,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-09-07",
-  "day": "Monday",
+  "date": "2026-09-08",
+  "day": "Tuesday",
   "week": 8,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -676,8 +676,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-09-08",
-  "day": "Tuesday",
+  "date": "2026-09-09",
+  "day": "Wednesday",
   "week": 8,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run",
@@ -689,8 +689,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-09-09",
-  "day": "Wednesday",
+  "date": "2026-09-10",
+  "day": "Thursday",
   "week": 8,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Recovery + Mobility",
@@ -702,8 +702,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-09-10",
-  "day": "Thursday",
+  "date": "2026-09-11",
+  "day": "Friday",
   "week": 8,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run / Quality",
@@ -715,8 +715,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-09-11",
-  "day": "Friday",
+  "date": "2026-09-12",
+  "day": "Saturday",
   "week": 8,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -728,8 +728,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-09-12",
-  "day": "Saturday",
+  "date": "2026-09-13",
+  "day": "Sunday",
   "week": 9,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Long Run",
@@ -741,8 +741,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-09-13",
-  "day": "Sunday",
+  "date": "2026-09-14",
+  "day": "Monday",
   "week": 9,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Rest",
@@ -754,8 +754,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-09-14",
-  "day": "Monday",
+  "date": "2026-09-15",
+  "day": "Tuesday",
   "week": 9,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -767,8 +767,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-09-15",
-  "day": "Tuesday",
+  "date": "2026-09-16",
+  "day": "Wednesday",
   "week": 9,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run",
@@ -780,8 +780,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-09-16",
-  "day": "Wednesday",
+  "date": "2026-09-17",
+  "day": "Thursday",
   "week": 9,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Recovery + Mobility",
@@ -793,8 +793,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-09-17",
-  "day": "Thursday",
+  "date": "2026-09-18",
+  "day": "Friday",
   "week": 9,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Run / Quality",
@@ -806,8 +806,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-09-18",
-  "day": "Friday",
+  "date": "2026-09-19",
+  "day": "Saturday",
   "week": 9,
   "phase": "RUN CONTINUOUSLY",
   "sessionType": "Strength",
@@ -819,8 +819,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-09-19",
-  "day": "Saturday",
+  "date": "2026-09-20",
+  "day": "Sunday",
   "week": 10,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Long Run",
@@ -832,8 +832,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-09-20",
-  "day": "Sunday",
+  "date": "2026-09-21",
+  "day": "Monday",
   "week": 10,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Rest",
@@ -845,8 +845,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-09-21",
-  "day": "Monday",
+  "date": "2026-09-22",
+  "day": "Tuesday",
   "week": 10,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -858,8 +858,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-09-22",
-  "day": "Tuesday",
+  "date": "2026-09-23",
+  "day": "Wednesday",
   "week": 10,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run",
@@ -871,8 +871,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-09-23",
-  "day": "Wednesday",
+  "date": "2026-09-24",
+  "day": "Thursday",
   "week": 10,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Recovery + Mobility",
@@ -884,8 +884,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-09-24",
-  "day": "Thursday",
+  "date": "2026-09-25",
+  "day": "Friday",
   "week": 10,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run / Quality",
@@ -897,8 +897,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-09-25",
-  "day": "Friday",
+  "date": "2026-09-26",
+  "day": "Saturday",
   "week": 10,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -910,8 +910,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-09-26",
-  "day": "Saturday",
+  "date": "2026-09-27",
+  "day": "Sunday",
   "week": 11,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Long Run",
@@ -923,8 +923,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-09-27",
-  "day": "Sunday",
+  "date": "2026-09-28",
+  "day": "Monday",
   "week": 11,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Rest",
@@ -936,8 +936,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-09-28",
-  "day": "Monday",
+  "date": "2026-09-29",
+  "day": "Tuesday",
   "week": 11,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -949,8 +949,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-09-29",
-  "day": "Tuesday",
+  "date": "2026-09-30",
+  "day": "Wednesday",
   "week": 11,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run",
@@ -962,8 +962,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-09-30",
-  "day": "Wednesday",
+  "date": "2026-10-01",
+  "day": "Thursday",
   "week": 11,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Recovery + Mobility",
@@ -975,8 +975,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-10-01",
-  "day": "Thursday",
+  "date": "2026-10-02",
+  "day": "Friday",
   "week": 11,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run / Quality",
@@ -988,8 +988,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-10-02",
-  "day": "Friday",
+  "date": "2026-10-03",
+  "day": "Saturday",
   "week": 11,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -1001,8 +1001,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-10-03",
-  "day": "Saturday",
+  "date": "2026-10-04",
+  "day": "Sunday",
   "week": 12,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Long Run",
@@ -1014,8 +1014,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-10-04",
-  "day": "Sunday",
+  "date": "2026-10-05",
+  "day": "Monday",
   "week": 12,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Rest",
@@ -1027,8 +1027,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-10-05",
-  "day": "Monday",
+  "date": "2026-10-06",
+  "day": "Tuesday",
   "week": 12,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -1040,8 +1040,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-10-06",
-  "day": "Tuesday",
+  "date": "2026-10-07",
+  "day": "Wednesday",
   "week": 12,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run",
@@ -1053,8 +1053,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-10-07",
-  "day": "Wednesday",
+  "date": "2026-10-08",
+  "day": "Thursday",
   "week": 12,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Recovery + Mobility",
@@ -1066,8 +1066,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-10-08",
-  "day": "Thursday",
+  "date": "2026-10-09",
+  "day": "Friday",
   "week": 12,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run / Quality",
@@ -1079,8 +1079,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-10-09",
-  "day": "Friday",
+  "date": "2026-10-10",
+  "day": "Saturday",
   "week": 12,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -1092,8 +1092,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-10-10",
-  "day": "Saturday",
+  "date": "2026-10-11",
+  "day": "Sunday",
   "week": 13,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Long Run",
@@ -1105,8 +1105,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-10-11",
-  "day": "Sunday",
+  "date": "2026-10-12",
+  "day": "Monday",
   "week": 13,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Rest",
@@ -1118,8 +1118,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-10-12",
-  "day": "Monday",
+  "date": "2026-10-13",
+  "day": "Tuesday",
   "week": 13,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -1131,8 +1131,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-10-13",
-  "day": "Tuesday",
+  "date": "2026-10-14",
+  "day": "Wednesday",
   "week": 13,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run",
@@ -1144,8 +1144,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-10-14",
-  "day": "Wednesday",
+  "date": "2026-10-15",
+  "day": "Thursday",
   "week": 13,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Recovery + Mobility",
@@ -1157,8 +1157,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-10-15",
-  "day": "Thursday",
+  "date": "2026-10-16",
+  "day": "Friday",
   "week": 13,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run / Quality",
@@ -1170,8 +1170,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-10-16",
-  "day": "Friday",
+  "date": "2026-10-17",
+  "day": "Saturday",
   "week": 13,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -1183,8 +1183,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-10-17",
-  "day": "Saturday",
+  "date": "2026-10-18",
+  "day": "Sunday",
   "week": 14,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Long Run",
@@ -1196,8 +1196,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-10-18",
-  "day": "Sunday",
+  "date": "2026-10-19",
+  "day": "Monday",
   "week": 14,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Rest",
@@ -1209,8 +1209,8 @@
   "minimum": "Rest without guilt."
  },
  {
-  "date": "2026-10-19",
-  "day": "Monday",
+  "date": "2026-10-20",
+  "day": "Tuesday",
   "week": 14,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -1222,8 +1222,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-10-20",
-  "day": "Tuesday",
+  "date": "2026-10-21",
+  "day": "Wednesday",
   "week": 14,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run",
@@ -1235,8 +1235,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-10-21",
-  "day": "Wednesday",
+  "date": "2026-10-22",
+  "day": "Thursday",
   "week": 14,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Recovery + Mobility",
@@ -1248,8 +1248,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-10-22",
-  "day": "Thursday",
+  "date": "2026-10-23",
+  "day": "Friday",
   "week": 14,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Run / Quality",
@@ -1261,8 +1261,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-10-23",
-  "day": "Friday",
+  "date": "2026-10-24",
+  "day": "Saturday",
   "week": 14,
   "phase": "BUILD THE ENGINE",
   "sessionType": "Strength",
@@ -1274,8 +1274,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-10-24",
-  "day": "Saturday",
+  "date": "2026-10-25",
+  "day": "Sunday",
   "week": 15,
   "phase": "ADD SPEED",
   "sessionType": "Long Run",
@@ -1287,8 +1287,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-10-25",
-  "day": "Sunday",
+  "date": "2026-10-26",
+  "day": "Monday",
   "week": 15,
   "phase": "ADD SPEED",
   "sessionType": "Recovery Run",
@@ -1300,8 +1300,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-10-26",
-  "day": "Monday",
+  "date": "2026-10-27",
+  "day": "Tuesday",
   "week": 15,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1313,8 +1313,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-10-27",
-  "day": "Tuesday",
+  "date": "2026-10-28",
+  "day": "Wednesday",
   "week": 15,
   "phase": "ADD SPEED",
   "sessionType": "Run",
@@ -1326,8 +1326,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-10-28",
-  "day": "Wednesday",
+  "date": "2026-10-29",
+  "day": "Thursday",
   "week": 15,
   "phase": "ADD SPEED",
   "sessionType": "Recovery + Mobility",
@@ -1339,8 +1339,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-10-29",
-  "day": "Thursday",
+  "date": "2026-10-30",
+  "day": "Friday",
   "week": 15,
   "phase": "ADD SPEED",
   "sessionType": "Run / Quality",
@@ -1352,8 +1352,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-10-30",
-  "day": "Friday",
+  "date": "2026-10-31",
+  "day": "Saturday",
   "week": 15,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1365,8 +1365,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-10-31",
-  "day": "Saturday",
+  "date": "2026-11-01",
+  "day": "Sunday",
   "week": 16,
   "phase": "ADD SPEED",
   "sessionType": "Long Run",
@@ -1378,8 +1378,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-11-01",
-  "day": "Sunday",
+  "date": "2026-11-02",
+  "day": "Monday",
   "week": 16,
   "phase": "ADD SPEED",
   "sessionType": "Recovery Run",
@@ -1391,8 +1391,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-11-02",
-  "day": "Monday",
+  "date": "2026-11-03",
+  "day": "Tuesday",
   "week": 16,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1404,8 +1404,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-11-03",
-  "day": "Tuesday",
+  "date": "2026-11-04",
+  "day": "Wednesday",
   "week": 16,
   "phase": "ADD SPEED",
   "sessionType": "Run",
@@ -1417,8 +1417,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-11-04",
-  "day": "Wednesday",
+  "date": "2026-11-05",
+  "day": "Thursday",
   "week": 16,
   "phase": "ADD SPEED",
   "sessionType": "Recovery + Mobility",
@@ -1430,8 +1430,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-11-05",
-  "day": "Thursday",
+  "date": "2026-11-06",
+  "day": "Friday",
   "week": 16,
   "phase": "ADD SPEED",
   "sessionType": "Run / Quality",
@@ -1443,8 +1443,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-11-06",
-  "day": "Friday",
+  "date": "2026-11-07",
+  "day": "Saturday",
   "week": 16,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1456,8 +1456,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-11-07",
-  "day": "Saturday",
+  "date": "2026-11-08",
+  "day": "Sunday",
   "week": 17,
   "phase": "ADD SPEED",
   "sessionType": "Long Run",
@@ -1469,8 +1469,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-11-08",
-  "day": "Sunday",
+  "date": "2026-11-09",
+  "day": "Monday",
   "week": 17,
   "phase": "ADD SPEED",
   "sessionType": "Recovery Run",
@@ -1482,8 +1482,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-11-09",
-  "day": "Monday",
+  "date": "2026-11-10",
+  "day": "Tuesday",
   "week": 17,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1495,8 +1495,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-11-10",
-  "day": "Tuesday",
+  "date": "2026-11-11",
+  "day": "Wednesday",
   "week": 17,
   "phase": "ADD SPEED",
   "sessionType": "Run",
@@ -1508,8 +1508,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-11-11",
-  "day": "Wednesday",
+  "date": "2026-11-12",
+  "day": "Thursday",
   "week": 17,
   "phase": "ADD SPEED",
   "sessionType": "Recovery + Mobility",
@@ -1521,8 +1521,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-11-12",
-  "day": "Thursday",
+  "date": "2026-11-13",
+  "day": "Friday",
   "week": 17,
   "phase": "ADD SPEED",
   "sessionType": "Run / Quality",
@@ -1534,8 +1534,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-11-13",
-  "day": "Friday",
+  "date": "2026-11-14",
+  "day": "Saturday",
   "week": 17,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1547,8 +1547,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-11-14",
-  "day": "Saturday",
+  "date": "2026-11-15",
+  "day": "Sunday",
   "week": 18,
   "phase": "ADD SPEED",
   "sessionType": "Long Run",
@@ -1560,8 +1560,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-11-15",
-  "day": "Sunday",
+  "date": "2026-11-16",
+  "day": "Monday",
   "week": 18,
   "phase": "ADD SPEED",
   "sessionType": "Recovery Run",
@@ -1573,8 +1573,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-11-16",
-  "day": "Monday",
+  "date": "2026-11-17",
+  "day": "Tuesday",
   "week": 18,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1586,8 +1586,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-11-17",
-  "day": "Tuesday",
+  "date": "2026-11-18",
+  "day": "Wednesday",
   "week": 18,
   "phase": "ADD SPEED",
   "sessionType": "Run",
@@ -1599,8 +1599,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-11-18",
-  "day": "Wednesday",
+  "date": "2026-11-19",
+  "day": "Thursday",
   "week": 18,
   "phase": "ADD SPEED",
   "sessionType": "Recovery + Mobility",
@@ -1612,8 +1612,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-11-19",
-  "day": "Thursday",
+  "date": "2026-11-20",
+  "day": "Friday",
   "week": 18,
   "phase": "ADD SPEED",
   "sessionType": "Run / Quality",
@@ -1625,8 +1625,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-11-20",
-  "day": "Friday",
+  "date": "2026-11-21",
+  "day": "Saturday",
   "week": 18,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1638,8 +1638,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-11-21",
-  "day": "Saturday",
+  "date": "2026-11-22",
+  "day": "Sunday",
   "week": 19,
   "phase": "ADD SPEED",
   "sessionType": "Long Run",
@@ -1651,8 +1651,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-11-22",
-  "day": "Sunday",
+  "date": "2026-11-23",
+  "day": "Monday",
   "week": 19,
   "phase": "ADD SPEED",
   "sessionType": "Recovery Run",
@@ -1664,8 +1664,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-11-23",
-  "day": "Monday",
+  "date": "2026-11-24",
+  "day": "Tuesday",
   "week": 19,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1677,8 +1677,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-11-24",
-  "day": "Tuesday",
+  "date": "2026-11-25",
+  "day": "Wednesday",
   "week": 19,
   "phase": "ADD SPEED",
   "sessionType": "Run",
@@ -1690,8 +1690,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-11-25",
-  "day": "Wednesday",
+  "date": "2026-11-26",
+  "day": "Thursday",
   "week": 19,
   "phase": "ADD SPEED",
   "sessionType": "Recovery + Mobility",
@@ -1703,8 +1703,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-11-26",
-  "day": "Thursday",
+  "date": "2026-11-27",
+  "day": "Friday",
   "week": 19,
   "phase": "ADD SPEED",
   "sessionType": "Run / Quality",
@@ -1716,8 +1716,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-11-27",
-  "day": "Friday",
+  "date": "2026-11-28",
+  "day": "Saturday",
   "week": 19,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1729,8 +1729,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-11-28",
-  "day": "Saturday",
+  "date": "2026-11-29",
+  "day": "Sunday",
   "week": 20,
   "phase": "ADD SPEED",
   "sessionType": "Long Run",
@@ -1742,8 +1742,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-11-29",
-  "day": "Sunday",
+  "date": "2026-11-30",
+  "day": "Monday",
   "week": 20,
   "phase": "ADD SPEED",
   "sessionType": "Recovery Run",
@@ -1755,8 +1755,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-11-30",
-  "day": "Monday",
+  "date": "2026-12-01",
+  "day": "Tuesday",
   "week": 20,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1768,8 +1768,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-12-01",
-  "day": "Tuesday",
+  "date": "2026-12-02",
+  "day": "Wednesday",
   "week": 20,
   "phase": "ADD SPEED",
   "sessionType": "Run",
@@ -1781,8 +1781,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-12-02",
-  "day": "Wednesday",
+  "date": "2026-12-03",
+  "day": "Thursday",
   "week": 20,
   "phase": "ADD SPEED",
   "sessionType": "Recovery + Mobility",
@@ -1794,8 +1794,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-12-03",
-  "day": "Thursday",
+  "date": "2026-12-04",
+  "day": "Friday",
   "week": 20,
   "phase": "ADD SPEED",
   "sessionType": "Run / Quality",
@@ -1807,8 +1807,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-12-04",
-  "day": "Friday",
+  "date": "2026-12-05",
+  "day": "Saturday",
   "week": 20,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1820,8 +1820,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-12-05",
-  "day": "Saturday",
+  "date": "2026-12-06",
+  "day": "Sunday",
   "week": 21,
   "phase": "ADD SPEED",
   "sessionType": "Long Run",
@@ -1833,8 +1833,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-12-06",
-  "day": "Sunday",
+  "date": "2026-12-07",
+  "day": "Monday",
   "week": 21,
   "phase": "ADD SPEED",
   "sessionType": "Recovery Run",
@@ -1846,8 +1846,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-12-07",
-  "day": "Monday",
+  "date": "2026-12-08",
+  "day": "Tuesday",
   "week": 21,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1859,8 +1859,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-12-08",
-  "day": "Tuesday",
+  "date": "2026-12-09",
+  "day": "Wednesday",
   "week": 21,
   "phase": "ADD SPEED",
   "sessionType": "Run",
@@ -1872,8 +1872,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-12-09",
-  "day": "Wednesday",
+  "date": "2026-12-10",
+  "day": "Thursday",
   "week": 21,
   "phase": "ADD SPEED",
   "sessionType": "Recovery + Mobility",
@@ -1885,8 +1885,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-12-10",
-  "day": "Thursday",
+  "date": "2026-12-11",
+  "day": "Friday",
   "week": 21,
   "phase": "ADD SPEED",
   "sessionType": "Run / Quality",
@@ -1898,8 +1898,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-12-11",
-  "day": "Friday",
+  "date": "2026-12-12",
+  "day": "Saturday",
   "week": 21,
   "phase": "ADD SPEED",
   "sessionType": "Strength",
@@ -1911,8 +1911,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-12-12",
-  "day": "Saturday",
+  "date": "2026-12-13",
+  "day": "Sunday",
   "week": 22,
   "phase": "CONSOLIDATE",
   "sessionType": "Long Run",
@@ -1924,8 +1924,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-12-13",
-  "day": "Sunday",
+  "date": "2026-12-14",
+  "day": "Monday",
   "week": 22,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery Run",
@@ -1937,8 +1937,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-12-14",
-  "day": "Monday",
+  "date": "2026-12-15",
+  "day": "Tuesday",
   "week": 22,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -1950,8 +1950,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-12-15",
-  "day": "Tuesday",
+  "date": "2026-12-16",
+  "day": "Wednesday",
   "week": 22,
   "phase": "CONSOLIDATE",
   "sessionType": "Run",
@@ -1963,8 +1963,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-12-16",
-  "day": "Wednesday",
+  "date": "2026-12-17",
+  "day": "Thursday",
   "week": 22,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery + Mobility",
@@ -1976,8 +1976,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-12-17",
-  "day": "Thursday",
+  "date": "2026-12-18",
+  "day": "Friday",
   "week": 22,
   "phase": "CONSOLIDATE",
   "sessionType": "Run / Quality",
@@ -1989,8 +1989,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-12-18",
-  "day": "Friday",
+  "date": "2026-12-19",
+  "day": "Saturday",
   "week": 22,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -2002,8 +2002,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-12-19",
-  "day": "Saturday",
+  "date": "2026-12-20",
+  "day": "Sunday",
   "week": 23,
   "phase": "CONSOLIDATE",
   "sessionType": "Long Run",
@@ -2015,8 +2015,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-12-20",
-  "day": "Sunday",
+  "date": "2026-12-21",
+  "day": "Monday",
   "week": 23,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery Run",
@@ -2028,8 +2028,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-12-21",
-  "day": "Monday",
+  "date": "2026-12-22",
+  "day": "Tuesday",
   "week": 23,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -2041,8 +2041,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-12-22",
-  "day": "Tuesday",
+  "date": "2026-12-23",
+  "day": "Wednesday",
   "week": 23,
   "phase": "CONSOLIDATE",
   "sessionType": "Run",
@@ -2054,8 +2054,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-12-23",
-  "day": "Wednesday",
+  "date": "2026-12-24",
+  "day": "Thursday",
   "week": 23,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery + Mobility",
@@ -2067,8 +2067,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-12-24",
-  "day": "Thursday",
+  "date": "2026-12-25",
+  "day": "Friday",
   "week": 23,
   "phase": "CONSOLIDATE",
   "sessionType": "Run / Quality",
@@ -2080,8 +2080,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2026-12-25",
-  "day": "Friday",
+  "date": "2026-12-26",
+  "day": "Saturday",
   "week": 23,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -2093,8 +2093,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2026-12-26",
-  "day": "Saturday",
+  "date": "2026-12-27",
+  "day": "Sunday",
   "week": 24,
   "phase": "CONSOLIDATE",
   "sessionType": "Long Run",
@@ -2106,8 +2106,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2026-12-27",
-  "day": "Sunday",
+  "date": "2026-12-28",
+  "day": "Monday",
   "week": 24,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery Run",
@@ -2119,8 +2119,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2026-12-28",
-  "day": "Monday",
+  "date": "2026-12-29",
+  "day": "Tuesday",
   "week": 24,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -2132,8 +2132,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2026-12-29",
-  "day": "Tuesday",
+  "date": "2026-12-30",
+  "day": "Wednesday",
   "week": 24,
   "phase": "CONSOLIDATE",
   "sessionType": "Run",
@@ -2145,8 +2145,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2026-12-30",
-  "day": "Wednesday",
+  "date": "2026-12-31",
+  "day": "Thursday",
   "week": 24,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery + Mobility",
@@ -2158,8 +2158,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2026-12-31",
-  "day": "Thursday",
+  "date": "2027-01-01",
+  "day": "Friday",
   "week": 24,
   "phase": "CONSOLIDATE",
   "sessionType": "Run / Quality",
@@ -2171,8 +2171,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2027-01-01",
-  "day": "Friday",
+  "date": "2027-01-02",
+  "day": "Saturday",
   "week": 24,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -2184,8 +2184,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2027-01-02",
-  "day": "Saturday",
+  "date": "2027-01-03",
+  "day": "Sunday",
   "week": 25,
   "phase": "CONSOLIDATE",
   "sessionType": "Long Run",
@@ -2197,8 +2197,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2027-01-03",
-  "day": "Sunday",
+  "date": "2027-01-04",
+  "day": "Monday",
   "week": 25,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery Run",
@@ -2210,8 +2210,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2027-01-04",
-  "day": "Monday",
+  "date": "2027-01-05",
+  "day": "Tuesday",
   "week": 25,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -2223,8 +2223,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2027-01-05",
-  "day": "Tuesday",
+  "date": "2027-01-06",
+  "day": "Wednesday",
   "week": 25,
   "phase": "CONSOLIDATE",
   "sessionType": "Run",
@@ -2236,8 +2236,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2027-01-06",
-  "day": "Wednesday",
+  "date": "2027-01-07",
+  "day": "Thursday",
   "week": 25,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery + Mobility",
@@ -2249,8 +2249,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2027-01-07",
-  "day": "Thursday",
+  "date": "2027-01-08",
+  "day": "Friday",
   "week": 25,
   "phase": "CONSOLIDATE",
   "sessionType": "Run / Quality",
@@ -2262,8 +2262,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2027-01-08",
-  "day": "Friday",
+  "date": "2027-01-09",
+  "day": "Saturday",
   "week": 25,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -2275,8 +2275,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2027-01-09",
-  "day": "Saturday",
+  "date": "2027-01-10",
+  "day": "Sunday",
   "week": 26,
   "phase": "CONSOLIDATE",
   "sessionType": "Long Run",
@@ -2288,8 +2288,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2027-01-10",
-  "day": "Sunday",
+  "date": "2027-01-11",
+  "day": "Monday",
   "week": 26,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery Run",
@@ -2301,8 +2301,8 @@
   "minimum": "15-min walk."
  },
  {
-  "date": "2027-01-11",
-  "day": "Monday",
+  "date": "2027-01-12",
+  "day": "Tuesday",
   "week": 26,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -2314,8 +2314,8 @@
   "minimum": "10-min walk + 1 set squats, rows, calf raises."
  },
  {
-  "date": "2027-01-12",
-  "day": "Tuesday",
+  "date": "2027-01-13",
+  "day": "Wednesday",
   "week": 26,
   "phase": "CONSOLIDATE",
   "sessionType": "Run",
@@ -2327,8 +2327,8 @@
   "minimum": "10-min easy walk/run, then stop while feeling good."
  },
  {
-  "date": "2027-01-13",
-  "day": "Wednesday",
+  "date": "2027-01-14",
+  "day": "Thursday",
   "week": 26,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery + Mobility",
@@ -2340,8 +2340,8 @@
   "minimum": "5-min mobility flow."
  },
  {
-  "date": "2027-01-14",
-  "day": "Thursday",
+  "date": "2027-01-15",
+  "day": "Friday",
   "week": 26,
   "phase": "CONSOLIDATE",
   "sessionType": "Run / Quality",
@@ -2353,8 +2353,8 @@
   "minimum": "Replace with 20-min easy walk or run."
  },
  {
-  "date": "2027-01-15",
-  "day": "Friday",
+  "date": "2027-01-16",
+  "day": "Saturday",
   "week": 26,
   "phase": "CONSOLIDATE",
   "sessionType": "Strength",
@@ -2366,8 +2366,8 @@
   "minimum": "One controlled set of every exercise."
  },
  {
-  "date": "2027-01-16",
-  "day": "Saturday",
+  "date": "2027-01-17",
+  "day": "Sunday",
   "week": 27,
   "phase": "CONSOLIDATE",
   "sessionType": "Long Run",
@@ -2379,8 +2379,8 @@
   "minimum": "20-min easy walk/run; do not make it up tomorrow."
  },
  {
-  "date": "2027-01-17",
-  "day": "Sunday",
+  "date": "2027-01-18",
+  "day": "Monday",
   "week": 27,
   "phase": "CONSOLIDATE",
   "sessionType": "Recovery Run",

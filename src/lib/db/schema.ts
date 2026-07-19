@@ -86,8 +86,10 @@ export const signals = pgTable(
       .references(() => entries.id),
     mood: integer("mood"), // -2..2, or null if not inferable
     didRun: boolean("did_run"), // true/false/null
+    runMinutes: integer("run_minutes"), // reported duration, or null when omitted
     sleepQuality: integer("sleep_quality"), // 1..5, or null
     energy: integer("energy"), // 1..5, or null
+    pain: integer("pain"), // 0..10, or null
     tags: jsonbStringArray(),
     extractedBy: text("extracted_by").notNull().default("rules"), // "rules" | "ai"
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),

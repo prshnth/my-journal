@@ -3,6 +3,7 @@ import { RotatingPromptProvider } from "../prompts/rotating";
 import type { PromptProvider } from "../prompts/types";
 import {
   checkInExists,
+  deleteCheckIn,
   listUsers,
   recordBraindumpCheckIn,
   recordCheckIn,
@@ -15,6 +16,35 @@ import { braindumpDue, BRAINDUMP_PROMPT, dueSlots, trainingDue } from "./slots";
 
 // Swap this single line for an AI provider later — nothing else in the loop changes.
 const provider: PromptProvider = new RotatingPromptProvider();
+
+async function deliverRecordedCheckIn(opts: {
+  checkInId: number;
+  chatId: string;
+  text: string;
+  label: string;
+}): Promise<void> {
+  let messageId: number | undefined;
+  try {
+    messageId = await sendMessage(opts.chatId, opts.text);
+  } catch (err) {
+    // Release the unique daily claim so the next scheduler tick can retry.
+    try {
+      await deleteCheckIn(opts.checkInId);
+    } catch (cleanupErr) {
+      console.error(`[scheduler] failed to release ${opts.label} check-in:`, cleanupErr);
+    }
+    console.error(`[scheduler] failed to send ${opts.label} to ${opts.chatId}:`, err);
+    return;
+  }
+
+  if (messageId === undefined) return;
+  try {
+    await setCheckInMessageId(opts.checkInId, String(messageId));
+  } catch (err) {
+    // The message was delivered. Keep the claim to avoid sending a duplicate.
+    console.error(`[scheduler] sent ${opts.label}, but failed to save its message id:`, err);
+  }
+}
 
 export async function runTick(now: DateTime = DateTime.now()): Promise<void> {
   const users = await listUsers();
@@ -37,14 +67,12 @@ export async function runTick(now: DateTime = DateTime.now()): Promise<void> {
       });
       if (!checkIn) continue; // lost the unique race; another insert already claimed this slot
 
-      try {
-        const messageId = await sendMessage(user.telegramChatId, prompt.text);
-        if (messageId !== undefined) {
-          await setCheckInMessageId(checkIn.id, String(messageId));
-        }
-      } catch (err) {
-        console.error(`[scheduler] failed to send ${due.slot} to ${user.telegramChatId}:`, err);
-      }
+      await deliverRecordedCheckIn({
+        checkInId: checkIn.id,
+        chatId: user.telegramChatId,
+        text: prompt.text,
+        label: due.slot,
+      });
     }
 
     // Morning training nudge — that day's session from the 6-month running plan.
@@ -55,14 +83,12 @@ export async function runTick(now: DateTime = DateTime.now()): Promise<void> {
         const text = formatTrainingMessage(day);
         const checkIn = await recordTrainingCheckIn({ userId: user.id, localDate: trDate, text });
         if (checkIn) {
-          try {
-            const messageId = await sendMessage(user.telegramChatId, text);
-            if (messageId !== undefined) {
-              await setCheckInMessageId(checkIn.id, String(messageId));
-            }
-          } catch (err) {
-            console.error(`[scheduler] failed to send training to ${user.telegramChatId}:`, err);
-          }
+          await deliverRecordedCheckIn({
+            checkInId: checkIn.id,
+            chatId: user.telegramChatId,
+            text,
+            label: "training",
+          });
         }
       }
     }
@@ -76,14 +102,12 @@ export async function runTick(now: DateTime = DateTime.now()): Promise<void> {
         text: BRAINDUMP_PROMPT,
       });
       if (checkIn) {
-        try {
-          const messageId = await sendMessage(user.telegramChatId, BRAINDUMP_PROMPT);
-          if (messageId !== undefined) {
-            await setCheckInMessageId(checkIn.id, String(messageId));
-          }
-        } catch (err) {
-          console.error(`[scheduler] failed to send braindump to ${user.telegramChatId}:`, err);
-        }
+        await deliverRecordedCheckIn({
+          checkInId: checkIn.id,
+          chatId: user.telegramChatId,
+          text: BRAINDUMP_PROMPT,
+          label: "braindump",
+        });
       }
     }
   }

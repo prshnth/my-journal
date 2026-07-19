@@ -15,6 +15,13 @@
       "when": 1781667439596,
       "tag": "0001_watery_lenny_balinger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784429769127,
+      "tag": "0002_dizzy_stick",
+      "breakpoints": true
     }
   ]
 }

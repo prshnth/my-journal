@@ -166,6 +166,29 @@ export async function setCheckInMessageId(
   await db.update(checkIns).set({ telegramMessageId }).where(eq(checkIns.id, checkInId));
 }
 
+/** Removes a check-in whose outbound send failed so the scheduler can retry it. */
+export async function deleteCheckIn(checkInId: number): Promise<void> {
+  await db.delete(checkIns).where(eq(checkIns.id, checkInId));
+}
+
+/** Resolves an explicit Telegram reply to the exact nudge it answered. */
+export async function getCheckInByTelegramMessageId(
+  userId: number,
+  telegramMessageId: string,
+): Promise<CheckIn | undefined> {
+  const [row] = await db
+    .select()
+    .from(checkIns)
+    .where(
+      and(
+        eq(checkIns.userId, userId),
+        eq(checkIns.telegramMessageId, telegramMessageId),
+      ),
+    )
+    .limit(1);
+  return row;
+}
+
 /** Most recent check-in for a user since `since` — used to attribute a reply to a prompt. */
 export async function latestRecentCheckIn(
   userId: number,
@@ -209,8 +232,10 @@ export async function saveSignals(
     entryId,
     mood: s.mood ?? null,
     didRun: s.didRun ?? null,
+    runMinutes: s.runMinutes ?? null,
     sleepQuality: s.sleepQuality ?? null,
     energy: s.energy ?? null,
+    pain: s.pain ?? null,
     tags: s.tags ?? [],
     extractedBy,
   });

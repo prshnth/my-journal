@@ -2,8 +2,10 @@
 export interface ExtractedSignals {
   mood?: number | null; // -2..2
   didRun?: boolean | null;
+  runMinutes?: number | null;
   sleepQuality?: number | null; // 1..5
   energy?: number | null; // 1..5
+  pain?: number | null; // 0..10
   tags?: string[];
 }
 

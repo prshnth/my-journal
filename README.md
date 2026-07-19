@@ -2,8 +2,8 @@
 
 A personal journaling tool that nudges you to check in. A Telegram bot messages you a
 few times a day — _"how'd you sleep?"_, _"did you run today?"_, _"how was your day?"_ — and
-whatever you reply (even a single word) is logged. A web dashboard shows your mood, sleep,
-and runs over time.
+whatever you reply (even a single word) is logged. A web dashboard keeps your journal,
+completed runs, and todos together.
 
 ## How it works
 
@@ -37,16 +37,38 @@ extractor just writes new `signals` rows over your existing history — no migra
 - **`/done <number>`** — check a todo off (numbers match `/todos`).
 - **`/help`** — a quick reminder of what the bot does.
 
-Replying to any nudge — scheduled or `/checkin` — logs an entry.
+Replying to any nudge — scheduled or `/checkin` — logs an entry. When you use Telegram's
+Reply action, the entry is matched to that exact nudge; ordinary messages fall back to the
+most recent check-in.
 
 ### Daily training nudge
 
 Every morning at 7:00 (your timezone) the bot sends that day's session from a 6-month
 return-to-running plan — the workout, strength/mobility extras, target effort, and a
 "short on time?" minimum option so there are never zero days. The plan lives in
-`src/lib/training/plan.json` (one row per day, Jul 18 2026 – Jan 17 2027), extracted from a
-spreadsheet; swap the JSON to change plans. Reply to the nudge ("done", "ran 25 min, felt
-good") and it's journaled with your run tracked.
+`src/lib/training/plan.json` (one row per day, Jul 19 2026 – Jan 18 2027), based on the
+spreadsheet and shifted one day so training starts on July 19. It is validated when the app
+starts; swap the JSON to change plans.
+
+The worker can catch up a missed morning send until noon. If Telegram rejects a send, the
+daily claim is released so a later scheduler tick can retry it. After a running session,
+reply to the training message with something like:
+
+```text
+done, 25 min, energy 4/5, pain 0/10
+```
+
+The raw reply stays in the journal, while completion, minutes, energy, and pain are stored as
+derived signals for the Runs tab.
+
+### Dashboard tabs
+
+- **Journal** — searchable raw entries plus an 18-week consistency grid.
+- **Runs** — today's planned session, totals, a run consistency grid, 12-week volume bars,
+  and recent run notes with minutes, energy, and pain.
+- **Todos** — add, complete, reopen, and delete todos captured on the web or in Telegram.
+
+JSON and Markdown exports include journal entries, runs, and todos.
 
 ## Setup
 
@@ -71,9 +93,9 @@ good") and it's journaled with your run tracked.
    docker compose up -d
    ```
 
-5. **Create the tables**
+5. **Create or update the tables**
    ```bash
-   npm run db:push
+   npm run db:migrate
    ```
 
 6. **Start the worker** (bot + scheduler). It seeds the prompt catalog on first run.
@@ -89,7 +111,8 @@ good") and it's journaled with your run tracked.
    ```bash
    npm run dev
    ```
-   Then visit [http://localhost:3000](http://localhost:3000).
+   Then visit [http://localhost:3000](http://localhost:3000) and use the Journal, Runs, and
+   Todos tabs.
 
 ## Customizing
 
@@ -98,90 +121,24 @@ good") and it's journaled with your run tracked.
 - **Prompts** — edit `src/lib/prompts/catalog.ts` (then re-seed by clearing the `prompts`
   table), or edit rows directly. `npm run db:studio` opens a DB browser.
 - **Running plan** — replace `src/lib/training/plan.json` (same fields, one object per day).
+  The loader rejects malformed or duplicate-dated plan rows at startup.
 
 ## Deploying to a VPS
 
-The whole stack — Postgres, the dashboard, the bot/scheduler worker, and an HTTPS
-reverse proxy — runs from one compose file: `docker-compose.prod.yml`. The dashboard is
-protected with HTTP Basic Auth, and [Caddy](https://caddyserver.com) fetches a TLS
-certificate for your domain automatically.
-
-**You'll need:** a Linux VPS (DigitalOcean, Hetzner, etc.) with Docker installed, ports
-80/443 open, and a domain (or subdomain) you can point at the server.
-
-1. **Point your domain at the server.** Add an `A` record, e.g. `journal.example.com` →
-   your VPS IP. Caddy needs this resolving before it can issue a certificate.
-
-2. **Get the code on the server and create `.env`.**
-   ```bash
-   git clone <your-repo> my-journal && cd my-journal
-   cp .env.example .env
-   ```
-   Edit `.env`:
-   - `TELEGRAM_BOT_TOKEN` — from @BotFather
-   - `USER_TIMEZONE` — your IANA timezone
-   - `DASHBOARD_PASSWORD` — a strong password; this gates the dashboard
-   - `DOMAIN` — the hostname from step 1, e.g. `journal.example.com`
-   - leave `DATABASE_URL` as-is (the stack points it at the bundled Postgres) and
-     `OWNER_TELEGRAM_CHAT_ID` blank (captured on `/start`)
-
-3. **Start everything.** This builds the image, runs migrations once, then brings up
-   Postgres, the worker, the dashboard, and the proxy:
-   ```bash
-   docker compose -f docker-compose.prod.yml up -d --build
-   ```
-
-4. **Say hi to your bot.** Open it in Telegram and send `/start` to register.
-
-5. **Open the dashboard** at `https://journal.example.com` and sign in with your
-   `DASHBOARD_PASSWORD` on the login screen.
-
-**Day-to-day:**
-
-- Logs: `docker compose -f docker-compose.prod.yml logs -f worker` (or `web`)
-- Update after a code change: `git pull && docker compose -f docker-compose.prod.yml up -d --build`
-- Stop: `docker compose -f docker-compose.prod.yml down` (add `-v` to also delete the database)
-
-No domain yet? Set `DOMAIN=:80` to serve plain HTTP at `http://<your-vps-ip>` — but your
-Basic Auth password then travels unencrypted, so use it only for a quick test.
-
-### Cheaper: build off the server (run on a ~$4/mo box)
-
-`next build` needs ~1–2 GB RAM, so the cheapest VPSes can't build the image themselves.
-Build it on your laptop (or CI), push it to a registry, and have the server only pull and
-run it — then a 512 MB–1 GB box is plenty. Use `docker-compose.deploy.yml` instead of the
-prod file:
-
-```bash
-# On your laptop (repo root). Build for the SERVER's CPU arch and push:
-echo "$GITHUB_TOKEN" | docker login ghcr.io -u YOUR_GH_USERNAME --password-stdin
-docker buildx build --platform linux/amd64 -t ghcr.io/YOUR_GH_USERNAME/my-journal:latest --push .
-
-# On the server (only docker-compose.deploy.yml + Caddyfile + .env needed — no source):
-docker login ghcr.io -u YOUR_GH_USERNAME   # skip if you made the package public
-docker compose -f docker-compose.deploy.yml pull
-docker compose -f docker-compose.deploy.yml up -d
-```
-
-Set `IMAGE` in `.env` to the tag you pushed. Use `--platform linux/arm64` instead if your
-VPS is ARM (e.g. Hetzner CAX). To update later: rebuild + push from the laptop, then
-`docker compose -f docker-compose.deploy.yml pull && docker compose -f docker-compose.deploy.yml up -d`.
-
-**Automate the build with CI.** `.github/workflows/publish-image.yml` builds and pushes the
-image to `ghcr.io/<owner>/<repo>` on every push to `main` (native amd64 — no laptop
-emulation, no secrets to configure beyond the built-in `GITHUB_TOKEN`). Set
-`IMAGE=ghcr.io/<your-username>/<repo>:latest` in the server's `.env`; deploying then becomes
-just the `pull` + `up -d` step. First run creates the package as private — either make it
-public on github.com or `docker login ghcr.io` on the server so it can pull.
+The recommended deployment builds the image in GitHub Actions, then lets a low-memory VPS
+pull it and run Postgres, migrations, the dashboard, worker, and Caddy. Follow
+[DEPLOY.md](DEPLOY.md) for the current end-to-end instructions. The migration service applies
+new schema changes, including run minutes and pain tracking, before the web and worker start.
 
 ## Scripts
 
 | Script | What it does |
 | --- | --- |
 | `npm run dev` | Dashboard in dev mode |
+| `npm test` | Focused scheduler, signal extractor, and training-plan tests |
 | `npm run worker` | Bot + scheduler (watch mode) |
 | `npm run worker:start` | Bot + scheduler (no watch, for prod) |
 | `npm run build` / `start` | Build / serve the dashboard |
-| `npm run db:push` | Sync schema to the database |
+| `npm run db:push` | Directly sync schema during local experimentation |
 | `npm run db:generate` / `db:migrate` | Generate / apply SQL migrations |
 | `npm run db:studio` | Open Drizzle Studio (DB browser) |

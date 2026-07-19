@@ -11,8 +11,7 @@ const NEGATIVE = [
   "lonely", "meh", "horrible", "overwhelmed",
 ];
 const RUN_WORDS = [
-  "run", "ran", "running", "jog", "jogged", "jogging", "gym", "workout",
-  "worked out", "exercise", "exercised", "trained", "cardio", "lifted",
+  "run", "ran", "running", "jog", "jogged", "jogging",
 ];
 
 function hasWord(text: string, word: string): boolean {
@@ -30,7 +29,7 @@ function clamp(n: number, lo: number, hi: number): number {
 
 /** Affirmative/negative read of a terse reply; null when unclear. Negatives win. */
 function yesNo(text: string): boolean | null {
-  if (/\b(no|nope|nah|didn'?t|did not|not really|haven'?t|never|negative)\b/i.test(text)) {
+  if (/\b(no|nope|nah|didn'?t|did not|not really|haven'?t|never|negative|skipped|missed|couldn'?t)\b/i.test(text)) {
     return false;
   }
   if (/\b(yes|yeah|yep|yup|ya|sure|did|done|totally|definitely|absolutely)\b/i.test(text)) {
@@ -39,8 +38,28 @@ function yesNo(text: string): boolean | null {
   return null;
 }
 
+function numericScore(text: string, label: string, lo: number, hi: number): number | null {
+  const match = text.match(new RegExp(`\\b${label}\\s*(?:was|is|[:=-])?\\s*(\\d{1,2})(?:\\s*\\/\\s*${hi})?\\b`, "i"));
+  if (!match) return null;
+  const value = Number(match[1]);
+  return value >= lo && value <= hi ? value : null;
+}
+
+function reportedMinutes(text: string): number | null {
+  const match = text.match(/\b(\d{1,3})\s*(?:min|mins|minute|minutes)\b/i);
+  if (!match) return null;
+  const value = Number(match[1]);
+  return value > 0 && value <= 600 ? value : null;
+}
+
 function isNegated(text: string): boolean {
   return /\b(no|not|didn'?t|did not|never|skip(ped)?|missed|couldn'?t)\b/i.test(text);
+}
+
+function promptIsSpecificallyAboutRunning(prompt: string): boolean {
+  return /\b(did you run|long run|recovery run|easy run|running|run\/walk)\b|\brun\s*(?:\/\s*quality|·)/i.test(
+    prompt,
+  );
 }
 
 /**
@@ -85,13 +104,16 @@ export class RuleBasedProcessor implements ResponseProcessor {
     if (hasAny(text, RUN_WORDS)) {
       didRun = !isNegated(text);
       tags.add("run");
-    } else if (hasAny(prompt, RUN_WORDS)) {
+    } else if (promptIsSpecificallyAboutRunning(prompt)) {
       const yn = yesNo(text);
       if (yn !== null) {
         didRun = yn;
         tags.add("run");
       }
     }
+
+    const runMinutes = didRun === true ? reportedMinutes(text) : null;
+    if (runMinutes !== null) tags.add("run-duration");
 
     // --- sleep quality ---
     let sleepQuality: number | null = null;
@@ -107,8 +129,10 @@ export class RuleBasedProcessor implements ResponseProcessor {
     }
 
     // --- energy ---
-    let energy: number | null = null;
-    if (hasAny(text, ["tired", "exhausted", "drained", "sleepy", "wiped"])) {
+    let energy: number | null = numericScore(text, "energy", 1, 5);
+    if (energy !== null) {
+      tags.add("energy");
+    } else if (hasAny(text, ["tired", "exhausted", "drained", "sleepy", "wiped"])) {
       energy = 2;
       tags.add("energy");
     } else if (hasAny(text, ["energetic", "energized", "pumped", "refreshed"])) {
@@ -116,6 +140,9 @@ export class RuleBasedProcessor implements ResponseProcessor {
       tags.add("energy");
     }
 
-    return { mood, didRun, sleepQuality, energy, tags: [...tags] };
+    const pain = numericScore(text, "pain", 0, 10);
+    if (pain !== null) tags.add("pain");
+
+    return { mood, didRun, runMinutes, sleepQuality, energy, pain, tags: [...tags] };
   }
 }

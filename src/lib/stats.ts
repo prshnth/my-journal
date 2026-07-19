@@ -1,9 +1,10 @@
-import { asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
 import { DateTime } from "luxon";
 import { db } from "./db";
-import { users, entries, checkIns, todos } from "./db/schema";
+import { users, entries, checkIns, signals, todos } from "./db/schema";
 import type { User } from "./db/schema";
 import { env } from "./env";
+import { trainingDayFor, type TrainingDay } from "./training/plan";
 
 export interface DailyPoint {
   date: string;
@@ -239,4 +240,158 @@ export async function getOwnerTodos(): Promise<TodosData> {
   }
   open.reverse(); // oldest-first, matching the bot's /todos numbering
   return { hasOwner: true, open, done: done.slice(0, 25) };
+}
+
+export interface RunRow {
+  id: number;
+  date: string;
+  receivedAt: string;
+  text: string;
+  sessionType: string | null;
+  minutes: number | null;
+  energy: number | null;
+  pain: number | null;
+}
+
+export interface RunWeek {
+  startDate: string;
+  label: string;
+  runs: number;
+  minutes: number;
+}
+
+export interface RunsData {
+  hasOwner: boolean;
+  timezone: string;
+  totals: {
+    runs: number;
+    runs7: number;
+    minutes: number;
+    weekStreak: number;
+    avgEnergy: number | null;
+  };
+  today: TrainingDay | null;
+  calendar: CalendarDay[];
+  weeks: RunWeek[];
+  recent: RunRow[];
+}
+
+/** Completed runs, extracted from journal replies and grouped in the owner's timezone. */
+export async function getRunsData(limit = 40): Promise<RunsData> {
+  const owner = await getOwner();
+  const timezone = owner?.timezone || env.USER_TIMEZONE;
+  const empty: RunsData = {
+    hasOwner: false,
+    timezone,
+    totals: { runs: 0, runs7: 0, minutes: 0, weekStreak: 0, avgEnergy: null },
+    today: null,
+    calendar: [],
+    weeks: [],
+    recent: [],
+  };
+  if (!owner) return empty;
+
+  const rows = await db
+    .select({
+      entryId: entries.id,
+      text: entries.text,
+      receivedAt: entries.receivedAt,
+      checkInDate: checkIns.localDate,
+      checkInSource: checkIns.source,
+      signalCreatedAt: signals.createdAt,
+      minutes: signals.runMinutes,
+      energy: signals.energy,
+      pain: signals.pain,
+    })
+    .from(entries)
+    .innerJoin(signals, and(eq(signals.entryId, entries.id), eq(signals.didRun, true)))
+    .leftJoin(checkIns, eq(checkIns.id, entries.checkInId))
+    .where(eq(entries.userId, owner.id))
+    .orderBy(desc(entries.receivedAt), desc(signals.createdAt));
+
+  // Reprocessing can create a newer signal row for an entry; use only the newest one.
+  const seen = new Set<number>();
+  const runs: RunRow[] = [];
+  for (const row of rows) {
+    if (seen.has(row.entryId)) continue;
+    seen.add(row.entryId);
+    const date =
+      row.checkInDate ??
+      DateTime.fromJSDate(row.receivedAt).setZone(timezone).toFormat("yyyy-LL-dd");
+    const planned = row.checkInSource === "training" ? trainingDayFor(date) : undefined;
+    runs.push({
+      id: row.entryId,
+      date,
+      receivedAt: row.receivedAt.toISOString(),
+      text: row.text,
+      sessionType: planned?.sessionType ?? null,
+      minutes: row.minutes,
+      energy: row.energy,
+      pain: row.pain,
+    });
+  }
+
+  const todayLocal = DateTime.now().setZone(timezone).startOf("day");
+  const todayKey = todayLocal.toFormat("yyyy-LL-dd");
+  const sevenDayStart = todayLocal.minus({ days: 6 }).toFormat("yyyy-LL-dd");
+  const dateCounts = new Map<string, number>();
+  for (const run of runs) dateCounts.set(run.date, (dateCounts.get(run.date) ?? 0) + 1);
+
+  const calendar: CalendarDay[] = [];
+  const calendarStart = todayLocal.minus({ days: 18 * 7 - 1 });
+  for (let i = 0; i < 18 * 7; i++) {
+    const date = calendarStart.plus({ days: i }).toFormat("yyyy-LL-dd");
+    calendar.push({ date, count: dateCounts.get(date) ?? 0 });
+  }
+
+  const weekCounts = new Map<string, { runs: number; minutes: number }>();
+  for (const run of runs) {
+    const weekStart = DateTime.fromISO(run.date, { zone: timezone })
+      .startOf("week")
+      .toFormat("yyyy-LL-dd");
+    const week = weekCounts.get(weekStart) ?? { runs: 0, minutes: 0 };
+    week.runs++;
+    week.minutes += run.minutes ?? 0;
+    weekCounts.set(weekStart, week);
+  }
+
+  const weeks: RunWeek[] = [];
+  const firstWeek = todayLocal.startOf("week").minus({ weeks: 11 });
+  for (let i = 0; i < 12; i++) {
+    const start = firstWeek.plus({ weeks: i });
+    const startDate = start.toFormat("yyyy-LL-dd");
+    const values = weekCounts.get(startDate) ?? { runs: 0, minutes: 0 };
+    weeks.push({ startDate, label: start.toFormat("LLL d"), ...values });
+  }
+
+  let streakCursor = todayLocal.startOf("week");
+  if (!weekCounts.has(streakCursor.toFormat("yyyy-LL-dd"))) {
+    streakCursor = streakCursor.minus({ weeks: 1 });
+  }
+  let weekStreak = 0;
+  while (weekCounts.has(streakCursor.toFormat("yyyy-LL-dd"))) {
+    weekStreak++;
+    streakCursor = streakCursor.minus({ weeks: 1 });
+  }
+
+  const energies = runs.flatMap((run) => (run.energy === null ? [] : [run.energy]));
+  const avgEnergy = energies.length
+    ? Math.round((energies.reduce((sum, value) => sum + value, 0) / energies.length) * 10) / 10
+    : null;
+
+  return {
+    hasOwner: true,
+    timezone,
+    totals: {
+      runs: runs.length,
+      runs7: runs.filter((run) => run.date >= sevenDayStart && run.date <= todayKey).length,
+      minutes: runs.reduce((sum, run) => sum + (run.minutes ?? 0), 0),
+      weekStreak,
+      avgEnergy,
+    },
+    today: trainingDayFor(todayKey) ?? null,
+    calendar,
+    weeks,
+    recent: runs.slice(0, limit),
+  };
 }

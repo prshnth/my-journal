@@ -3,22 +3,26 @@ import { DateTime } from "luxon";
 import { env } from "../env";
 import {
   addTodo,
+  getCheckInByTelegramMessageId,
   getUserByChatId,
   hasTodoSince,
   latestRecentCheckIn,
   listOpenTodos,
   recordEntry,
   recordManualCheckIn,
+  saveSignals,
   setTodoDone,
   upsertUser,
 } from "../repo";
 import { RotatingPromptProvider } from "../prompts/rotating";
 import { SLOTS, type Slot } from "../prompts/types";
 import { currentSlot, localDateFor } from "../scheduler/slots";
+import { RuleBasedProcessor } from "../signals/rules";
 import { formatTrainingMessage, trainingDayFor, PLAN_END, PLAN_START } from "../training/plan";
 import type { User } from "../db/schema";
 
 const promptProvider = new RotatingPromptProvider();
+const responseProcessor = new RuleBasedProcessor();
 
 async function ensureUser(chatId: string, firstName: string | null): Promise<User> {
   return (
@@ -48,7 +52,8 @@ export function createBot(): Bot {
         "/plan — today's training from your running plan (or /plan tomorrow)\n" +
         "/todos — list your todos, or /todos <thing> to add one\n" +
         "/done <number> — check a todo off\n\n" +
-        "every morning i'll send that day's run, strength, or recovery session.\n" +
+        "every morning i'll send that day's run, strength, or recovery session. " +
+        "reply to that message with minutes, energy, and pain to track a run.\n" +
         "once a day i'll ask what's on your mind — reply one item per line and i'll save them as todos.",
     );
   });
@@ -141,9 +146,13 @@ export function createBot(): Bot {
 
     const user = await ensureUser(String(ctx.chat.id), ctx.from?.first_name ?? null);
 
-    // Attribute the reply to a recent check-in (if any) so we can interpret terse answers.
+    // Prefer the exact Telegram message being answered; fall back for ordinary chat replies.
     const since = DateTime.now().minus({ hours: 18 }).toJSDate();
-    let checkIn = await latestRecentCheckIn(user.id, since);
+    const repliedToMessageId = ctx.message.reply_to_message?.message_id;
+    let checkIn = repliedToMessageId
+      ? await getCheckInByTelegramMessageId(user.id, String(repliedToMessageId))
+      : undefined;
+    checkIn ??= await latestRecentCheckIn(user.id, since);
 
     // The daily braindump turns replies into todos — but only the FIRST reply to it. Once it's
     // been answered (a todo exists since it was sent), later replies journal as normal.
@@ -163,14 +172,22 @@ export function createBot(): Bot {
       checkIn = undefined; // already braindumped today → treat this as ordinary journaling
     }
 
-    await recordEntry({
+    const entry = await recordEntry({
       userId: user.id,
       text,
       telegramMessageId: String(ctx.message.message_id),
       checkInId: checkIn?.id ?? null,
     });
 
-    await ctx.reply("logged. thanks for checking in.");
+    const extracted = await responseProcessor.process(entry, { promptText: checkIn?.text });
+    try {
+      await saveSignals(entry.id, extracted, responseProcessor.name);
+    } catch (err) {
+      // The raw journal entry is still safely stored even if derived metrics fail.
+      console.error(`[bot] failed to save signals for entry ${entry.id}:`, err);
+    }
+
+    await ctx.reply(extracted.didRun === true ? "run logged. nice work." : "logged. thanks for checking in.");
   });
 
   bot.catch((err) => console.error("[bot] error handling update:", err));

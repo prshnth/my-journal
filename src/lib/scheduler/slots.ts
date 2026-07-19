@@ -58,13 +58,15 @@ export function currentSlot(timezone: string, now: DateTime = DateTime.now()): S
 
 /** The daily morning training nudge — that day's run/strength/recovery from the plan. */
 export const TRAINING = { hour: 7, minute: 0 };
+export const TRAINING_CUTOFF = { hour: 12, minute: 0 };
 
-/** Today's local date if the training nudge is due within the grace window, else null. */
+/** Today's local date from 7am until noon, allowing a safe catch-up after worker downtime. */
 export function trainingDue(timezone: string, now: DateTime = DateTime.now()): string | null {
   const local = now.setZone(timezone);
   const minutesNow = local.hour * 60 + local.minute;
   const target = TRAINING.hour * 60 + TRAINING.minute;
-  if (minutesNow >= target && minutesNow < target + GRACE_MINUTES) {
+  const cutoff = TRAINING_CUTOFF.hour * 60 + TRAINING_CUTOFF.minute;
+  if (minutesNow >= target && minutesNow < cutoff) {
     return local.toFormat("yyyy-LL-dd");
   }
   return null;

@@ -1,11 +1,19 @@
 import type { CalendarDay } from "@/lib/stats";
 
-const COLORS = [
+const EMERALD = [
   "bg-zinc-800/60",
   "bg-emerald-900",
   "bg-emerald-700",
   "bg-emerald-500",
   "bg-emerald-400",
+];
+
+const AMBER = [
+  "bg-zinc-800/60",
+  "bg-amber-950",
+  "bg-amber-800",
+  "bg-amber-600",
+  "bg-amber-400",
 ];
 
 function level(count: number): number {
@@ -17,8 +25,17 @@ function level(count: number): number {
 }
 
 /** GitHub-style consistency grid: one column per week, one cell per day. */
-export function Heatmap({ days }: { days: CalendarDay[] }) {
+export function Heatmap({
+  days,
+  tone = "emerald",
+  noun = "entry",
+}: {
+  days: CalendarDay[];
+  tone?: "emerald" | "amber";
+  noun?: string;
+}) {
   if (!days.length) return null;
+  const colors = tone === "amber" ? AMBER : EMERALD;
 
   // Pad leading cells so the first column starts on Sunday.
   const cells: (CalendarDay | null)[] = [...days];
@@ -39,8 +56,8 @@ export function Heatmap({ days }: { days: CalendarDay[] }) {
               return (
                 <div
                   key={di}
-                  title={`${day.date}: ${day.count} ${day.count === 1 ? "entry" : "entries"}`}
-                  className={`h-3 w-3 rounded-sm ${COLORS[level(day.count)]}`}
+                  title={`${day.date}: ${day.count} ${day.count === 1 ? noun : noun + "s"}`}
+                  className={`h-3 w-3 rounded-sm ${colors[level(day.count)]}`}
                 />
               );
             })}
@@ -49,7 +66,7 @@ export function Heatmap({ days }: { days: CalendarDay[] }) {
       </div>
       <div className="flex items-center justify-end gap-1 text-[10px] text-zinc-500">
         <span>less</span>
-        {COLORS.map((c, i) => (
+        {colors.map((c, i) => (
           <span key={i} className={`h-3 w-3 rounded-sm ${c}`} />
         ))}
         <span>more</span>
