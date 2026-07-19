@@ -47,17 +47,17 @@ export function Heatmap({
 
   return (
     <div className="space-y-2">
-      <div className="flex gap-1 overflow-x-auto">
+      <div className="flex gap-0.5 overflow-x-auto sm:gap-1">
         {weeks.map((week, wi) => (
-          <div key={wi} className="flex flex-col gap-1">
+          <div key={wi} className="flex shrink-0 flex-col gap-0.5 sm:gap-1">
             {Array.from({ length: 7 }).map((_, di) => {
               const day = week[di] ?? null;
-              if (!day) return <div key={di} className="h-3 w-3 rounded-sm" />;
+              if (!day) return <div key={di} className="h-2.5 w-2.5 rounded-sm sm:h-3 sm:w-3" />;
               return (
                 <div
                   key={di}
                   title={`${day.date}: ${day.count} ${day.count === 1 ? noun : noun + "s"}`}
-                  className={`h-3 w-3 rounded-sm ${colors[level(day.count)]}`}
+                  className={`h-2.5 w-2.5 rounded-sm sm:h-3 sm:w-3 ${colors[level(day.count)]}`}
                 />
               );
             })}
@@ -67,7 +67,7 @@ export function Heatmap({
       <div className="flex items-center justify-end gap-1 text-[10px] text-zinc-500">
         <span>less</span>
         {colors.map((c, i) => (
-          <span key={i} className={`h-3 w-3 rounded-sm ${c}`} />
+          <span key={i} className={`h-2.5 w-2.5 rounded-sm sm:h-3 sm:w-3 ${c}`} />
         ))}
         <span>more</span>
       </div>

@@ -3,8 +3,8 @@ import type { EntryRow } from "@/lib/stats";
 
 export function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 px-4 py-3">
-      <div className="text-2xl font-semibold">{value}</div>
+    <div className="min-w-0 rounded-xl border border-zinc-800 bg-zinc-900/50 px-3 py-3 sm:px-4">
+      <div className="text-xl font-semibold sm:text-2xl">{value}</div>
       <div className="text-xs text-zinc-400">{label}</div>
     </div>
   );
@@ -12,7 +12,7 @@ export function Stat({ label, value }: { label: string; value: string }) {
 
 export function Card({ title, children }: { title?: string; children: ReactNode }) {
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+    <div className="min-w-0 rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
       {title && <div className="mb-2 text-sm font-medium text-zinc-300">{title}</div>}
       {children}
     </div>
