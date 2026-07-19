@@ -103,6 +103,26 @@ export async function recordBraindumpCheckIn(opts: {
   return row ?? null;
 }
 
+/** Records the daily morning training nudge (its own slot, one per local day). */
+export async function recordTrainingCheckIn(opts: {
+  userId: number;
+  localDate: string;
+  text: string;
+}): Promise<CheckIn | null> {
+  const [row] = await db
+    .insert(checkIns)
+    .values({
+      userId: opts.userId,
+      slot: "training",
+      text: opts.text,
+      source: "training",
+      localDate: opts.localDate,
+    })
+    .onConflictDoNothing({ target: [checkIns.userId, checkIns.slot, checkIns.localDate] })
+    .returning();
+  return row ?? null;
+}
+
 /**
  * Manual /checkin: upserts the slot's check-in so it becomes the latest, even if that slot
  * already fired today. Without this, a reply could attribute to an earlier/other check-in.

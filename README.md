@@ -32,9 +32,21 @@ extractor just writes new `signals` rows over your existing history — no migra
 - **`/start`** — registers you and captures your chat id.
 - **`/checkin`** — an on-demand nudge, off-schedule, with a prompt that fits the time of day.
   Force a specific theme with `/checkin morning`, `/checkin midday`, or `/checkin evening`.
+- **`/plan`** — today's session from the 6-month running plan (`/plan tomorrow` peeks ahead).
+- **`/todos`** — list your open todos; `/todos <thing>` adds one.
+- **`/done <number>`** — check a todo off (numbers match `/todos`).
 - **`/help`** — a quick reminder of what the bot does.
 
 Replying to any nudge — scheduled or `/checkin` — logs an entry.
+
+### Daily training nudge
+
+Every morning at 7:00 (your timezone) the bot sends that day's session from a 6-month
+return-to-running plan — the workout, strength/mobility extras, target effort, and a
+"short on time?" minimum option so there are never zero days. The plan lives in
+`src/lib/training/plan.json` (one row per day, Jul 18 2026 – Jan 17 2027), extracted from a
+spreadsheet; swap the JSON to change plans. Reply to the nudge ("done", "ran 25 min, felt
+good") and it's journaled with your run tracked.
 
 ## Setup
 
@@ -81,9 +93,11 @@ Replying to any nudge — scheduled or `/checkin` — logs an entry.
 
 ## Customizing
 
-- **Check-in times** — edit `SLOT_SCHEDULE` in `src/lib/scheduler/slots.ts`.
+- **Check-in times** — edit `SLOT_SCHEDULE` in `src/lib/scheduler/slots.ts`. The training
+  nudge time is `TRAINING` and the braindump time is `BRAINDUMP` in the same file.
 - **Prompts** — edit `src/lib/prompts/catalog.ts` (then re-seed by clearing the `prompts`
   table), or edit rows directly. `npm run db:studio` opens a DB browser.
+- **Running plan** — replace `src/lib/training/plan.json` (same fields, one object per day).
 
 ## Deploying to a VPS
 

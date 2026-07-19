@@ -15,6 +15,7 @@ import {
 import { RotatingPromptProvider } from "../prompts/rotating";
 import { SLOTS, type Slot } from "../prompts/types";
 import { currentSlot, localDateFor } from "../scheduler/slots";
+import { formatTrainingMessage, trainingDayFor, PLAN_END, PLAN_START } from "../training/plan";
 import type { User } from "../db/schema";
 
 const promptProvider = new RotatingPromptProvider();
@@ -44,8 +45,10 @@ export function createBot(): Bot {
     await ctx.reply(
       "i nudge you morning, midday, and evening — just reply to log how you're doing.\n\n" +
         "/checkin — a nudge now (or /checkin morning | midday | evening)\n" +
+        "/plan — today's training from your running plan (or /plan tomorrow)\n" +
         "/todos — list your todos, or /todos <thing> to add one\n" +
         "/done <number> — check a todo off\n\n" +
+        "every morning i'll send that day's run, strength, or recovery session.\n" +
         "once a day i'll ask what's on your mind — reply one item per line and i'll save them as todos.",
     );
   });
@@ -80,6 +83,21 @@ export function createBot(): Bot {
       localDate,
       telegramMessageId: String(sent.message_id),
     });
+  });
+
+  // Today's (or tomorrow's) session from the 6-month running plan.
+  bot.command("plan", async (ctx) => {
+    const user = await ensureUser(String(ctx.chat.id), ctx.from?.first_name ?? null);
+    const tomorrow = ctx.match.trim().toLowerCase() === "tomorrow";
+    const date = tomorrow
+      ? DateTime.now().setZone(user.timezone).plus({ days: 1 }).toFormat("yyyy-LL-dd")
+      : localDateFor(user.timezone);
+    const day = trainingDayFor(date);
+    if (!day) {
+      await ctx.reply(`no plan for that day — the running plan covers ${PLAN_START} to ${PLAN_END}.`);
+      return;
+    }
+    await ctx.reply(formatTrainingMessage(day, { tomorrow }));
   });
 
   // Todos: list them, or add one when text follows the command.

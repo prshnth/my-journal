@@ -56,6 +56,20 @@ export function currentSlot(timezone: string, now: DateTime = DateTime.now()): S
   return chosen;
 }
 
+/** The daily morning training nudge — that day's run/strength/recovery from the plan. */
+export const TRAINING = { hour: 7, minute: 0 };
+
+/** Today's local date if the training nudge is due within the grace window, else null. */
+export function trainingDue(timezone: string, now: DateTime = DateTime.now()): string | null {
+  const local = now.setZone(timezone);
+  const minutesNow = local.hour * 60 + local.minute;
+  const target = TRAINING.hour * 60 + TRAINING.minute;
+  if (minutesNow >= target && minutesNow < target + GRACE_MINUTES) {
+    return local.toFormat("yyyy-LL-dd");
+  }
+  return null;
+}
+
 /** The daily "anything on your mind?" braindump nudge — its replies become todos. */
 export const BRAINDUMP = { hour: 18, minute: 0 };
 
